@@ -2,76 +2,100 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'DM Serif Display';
+  src: url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap');
+}
+
 @layer base {
-  html,
-  body,
-  #root {
+  :root {
+    --bg: #f5f3ef;
+    --surface: #ffffff;
+    --card: #faf9f7;
+    --border: #e4e0d8;
+    --text: #1a1814;
+    --muted: #7a7670;
+    --accent: #4a3fa0; /* Indigo/Purple */
+    --accent2: #1a9e82; /* Teal */
+    --accent-bg: #eeecfa;
+    --accent2-bg: #e4f5f1;
+    --shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+    --shadow-md: 0 4px 24px rgba(0, 0, 0, 0.10);
+  }
+
+  html, body, #root {
     height: 100%;
   }
+
   body {
-    @apply bg-paper text-ink font-body antialiased;
-    font-feature-settings: 'ss01', 'ss02', 'cv11';
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
   }
-  /* Fraunces looks best with its optical sizing cranked up at display sizes */
-  .font-display {
-    font-optical-sizing: auto;
-    font-variation-settings: 'opsz' 144, 'SOFT' 50;
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
   }
-  ::selection {
-    background: #14130F;
-    color: #F5F1EA;
+
+  .font-mono {
+    font-family: 'DM Mono', monospace;
   }
 }
 
 @layer components {
-  /* Hairline rule used to separate sections, cards, rows */
-  .rule {
-    @apply border-t border-ink/15;
+  .sec-head {
+    @apply flex items-center gap-3 mb-8;
   }
-  .rule-b {
-    @apply border-b border-ink/15;
+  .sec-label {
+    @apply font-mono text-[11px] text-accent tracking-[0.15em] uppercase;
   }
-
-  /* Numbered eyebrow label used above section titles */
-  .eyebrow {
-    @apply font-mono text-[11px] uppercase tracking-[0.18em] text-ink/60;
+  .sec-line {
+    @apply flex-1 h-[1px] bg-border;
   }
 
-  /* Ember pill used for actions in edit mode */
-  .btn-ember {
-    @apply inline-flex items-center gap-2 bg-ember text-paper px-4 py-2 text-sm font-medium
-           hover:bg-ink transition-colors duration-200;
+  .chip {
+    @apply font-mono text-[11px] px-3 py-1 rounded-full bg-card border border-border text-muted;
   }
-  .btn-ghost {
-    @apply inline-flex items-center gap-2 border border-ink/20 text-ink px-4 py-2 text-sm
-           hover:border-ink transition-colors duration-200;
+  .chip-hi {
+    @apply bg-accent-bg border-[#c5bfef] text-accent;
   }
-  .btn-danger {
-    @apply inline-flex items-center gap-2 border border-red-700/40 text-red-800 px-4 py-2 text-sm
-           hover:bg-red-700 hover:text-paper hover:border-red-700 transition-colors duration-200;
+  .chip-teal {
+    @apply bg-accent2-bg border-[#9fd8cc] text-accent2;
   }
 
-  .input {
-    @apply w-full bg-paper border-b border-ink/25 focus:border-ink outline-none
-           py-2 font-body text-ink placeholder:text-ink/35
-           transition-colors duration-150;
+  .proj-card {
+    @apply bg-surface border border-border rounded-xl p-6 shadow-sm flex flex-col gap-3 transition-all duration-200 hover:shadow-md;
   }
-  .textarea {
-    @apply w-full bg-paper border border-ink/25 focus:border-ink outline-none
-           p-3 font-body text-ink placeholder:text-ink/35 resize-y
-           transition-colors duration-150;
+  .proj-btn {
+    @apply font-mono text-[11px] px-3 py-1.5 rounded-md border border-border bg-transparent text-muted transition-all duration-200 flex items-center gap-1.5;
   }
-  .label {
-    @apply block font-mono text-[11px] uppercase tracking-[0.18em] text-ink/60 mb-1;
+  .proj-btn:hover {
+    @apply border-accent text-accent bg-accent-bg;
   }
+  .proj-btn-primary {
+    @apply bg-accent text-white border-accent hover:opacity-90 hover:bg-accent hover:text-white;
+  }
+
+  .skill-tag {
+    @apply font-mono text-[12px] px-3.5 py-1.5 rounded-md bg-card border border-border text-muted;
+  }
+  .skill-tag.hi { @apply bg-accent-bg border-[#c5bfef] text-accent; }
+  .skill-tag.teal { @apply bg-accent2-bg border-[#9fd8cc] text-accent2; }
+  .skill-tag.amber { @apply bg-[#fff8e6] border-[#f0d48a] text-[#7a5c00]; }
 }
 
-/* Drag cursor while sorting */
-.dragging-shell {
-  cursor: grabbing !important;
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+.animate-blink {
+  animation: blink 2s infinite;
 }
 
-/* Subtle page-in fade for route transitions */
 @keyframes pageIn {
   from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
@@ -79,3 +103,4 @@
 .page-in {
   animation: pageIn 320ms ease-out both;
 }
+

@@ -1,48 +1,27 @@
 export default function ExperienceCard({ item }) {
   return (
-    <article className="grid grid-cols-12 gap-4 md:gap-8 py-8 md:py-10 border-b border-ink/15 relative">
-      {/* Timeline marker */}
-      <div className="col-span-12 md:col-span-3 lg:col-span-2 relative">
-        <div className="font-mono text-xs text-ink/75 tracking-wider">
-          {item.startDate || '—'} <span className="text-ink/40">→</span>{' '}
-          <span className={item.endDate?.toLowerCase() === 'present' ? 'text-ember' : ''}>
-            {item.endDate || '—'}
-          </span>
+    <article className="bg-white border border-border rounded-lg p-5 px-6 shadow-sm flex items-center justify-between gap-4 flex-wrap">
+      <div className="flex-1 min-w-[240px]">
+        <div className="text-[15px] font-bold text-text mb-0.5">
+          {item.role || item.degree}
         </div>
-        {item.location && (
-          <div className="mt-1 font-mono text-[10px] uppercase tracking-widest text-ink/50">
-            {item.location}
-          </div>
-        )}
+        <div className="text-[13px] text-muted">
+          {item.company || item.school}
+        </div>
+        <div className="inline-block font-mono text-[10px] px-2 py-0.5 rounded-full bg-accent-bg text-accent border border-[#c5bfef] mt-2">
+          {item.startDate} {item.endDate ? `– ${item.endDate}` : ''}
+        </div>
       </div>
 
-      {/* Content */}
-      <div className="col-span-12 md:col-span-9 lg:col-span-10 md:border-l border-ink/15 md:pl-8 relative">
-        {/* Dot on the rule */}
-        <div className="hidden md:block absolute -left-[5px] top-1 w-[9px] h-[9px] bg-ember rounded-full" />
-
-        <h3 className="font-display text-3xl md:text-4xl tracking-tightest leading-[1.05]">
-          {item.role}
-        </h3>
-        <div className="mt-1 text-ink/75">
-          <span className="font-medium">{item.company}</span>
+      <div className="text-right">
+        <div className="font-mono text-[15px] font-bold text-accent2">
+          {item.score || item.cgpa || '8.04 / 10'}
         </div>
-
-        {item.description && (
-          <p className="mt-4 text-ink/70 leading-relaxed max-w-prose">{item.description}</p>
-        )}
-
-        {!!(item.highlights && item.highlights.length) && (
-          <ul className="mt-4 space-y-2 max-w-prose">
-            {item.highlights.map((h, i) => (
-              <li key={i} className="flex gap-3 text-ink/80 leading-relaxed">
-                <span className="font-mono text-ember mt-1.5 shrink-0">—</span>
-                <span>{h}</span>
-              </li>
-            ))}
-          </ul>
-        )}
+        <div className="text-[12px] text-muted mt-0.5">
+          {item.scoreLabel || 'CGPA'}
+        </div>
       </div>
     </article>
   );
 }
+

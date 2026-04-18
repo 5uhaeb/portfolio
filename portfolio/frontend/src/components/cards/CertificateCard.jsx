@@ -1,57 +1,37 @@
 export default function CertificateCard({ item }) {
-  const isAchievement = item.kind === 'achievement';
   return (
-    <article className="relative bg-paper border border-ink/15 p-6 flex flex-col h-full hover:border-ink transition-colors">
-      {/* Seal in the corner */}
-      <div className="absolute -top-3 -right-3 h-12 w-12 rounded-full bg-paper border border-ink/25 flex items-center justify-center">
-        <div
-          className={`h-8 w-8 rounded-full flex items-center justify-center font-mono text-[10px] tracking-widest ${
-            isAchievement ? 'bg-ember text-paper' : 'bg-ink text-paper'
-          }`}
-        >
-          {isAchievement ? '★' : '✓'}
-        </div>
+    <article className="proj-card bg-white border border-border rounded-xl p-6 shadow-sm flex flex-col gap-2 h-full">
+      <div className="w-9 h-9 border border-border rounded-lg bg-accent-bg flex items-center justify-center text-accent text-[18px] mb-1">
+        {item.kind === 'achievement' ? '★' : '📜'}
       </div>
 
-      <div className="eyebrow mb-2">
-        {isAchievement ? 'Achievement' : 'Certificate'}
-        {item.issueDate ? ` · ${item.issueDate}` : ''}
-      </div>
-
-      <h3 className="font-display text-2xl leading-tight tracking-tightest mb-2">
+      <h3 className="text-[14px] font-bold text-text leading-tight">
         {item.title}
       </h3>
 
       {item.issuer && (
-        <div className="text-ink/70">
-          <span className="font-mono text-[11px] uppercase tracking-widest text-ink/50 mr-2">by</span>
+        <div className="text-[12px] text-muted">
           {item.issuer}
         </div>
       )}
 
-      {item.description && (
-        <p className="mt-3 text-sm text-ink/70 leading-relaxed">{item.description}</p>
+      {item.issueDate && (
+        <div className="font-mono text-[11px] text-accent2 mt-auto pt-2">
+          {item.issueDate}
+        </div>
       )}
 
-      <div className="mt-auto pt-5 flex items-center justify-between border-t border-ink/10">
-        {item.credentialId ? (
-          <span className="font-mono text-[10px] text-ink/50">
-            ID <span className="text-ink/80">{item.credentialId}</span>
-          </span>
-        ) : (
-          <span />
-        )}
-        {item.credentialUrl && (
-          <a
-            href={item.credentialUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="font-mono text-[11px] uppercase tracking-widest text-ember hover:text-ink"
-          >
-            Verify ↗
-          </a>
-        )}
-      </div>
+      {item.credentialUrl && (
+        <a
+          href={item.credentialUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="proj-btn mt-2 justify-center"
+        >
+          Verify ↗
+        </a>
+      )}
     </article>
   );
 }
+

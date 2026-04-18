@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useRealtimeList } from '../lib/useRealtimeList.js';
 import { useAuth } from '../context/AuthContext.jsx';
-import SectionHeader from '../components/SectionHeader.jsx';
 import SortableList from '../components/SortableList.jsx';
 import EditShell from '../components/EditShell.jsx';
 import ProjectCard from '../components/cards/ProjectCard.jsx';
@@ -25,21 +24,24 @@ export default function Projects() {
   }
 
   return (
-    <div className="page-in mx-auto max-w-7xl px-6 lg:px-10 py-16 lg:py-24">
-      <SectionHeader
-        number="03"
-        title={<>Selected <span className="italic">work</span>.</>}
-        subtitle="Things I've built, shipped, or lovingly refactored into the ground."
-        action={isAdmin && <button className="btn-ember" onClick={openNew}>+ Add project</button>}
-      />
+    <div className="page-in">
+      <div className="sec-head">
+        <span className="sec-label">Projects</span>
+        <div className="sec-line"></div>
+        {isAdmin && (
+          <button className="proj-btn proj-btn-primary" onClick={openNew}>
+            + Add Project
+          </button>
+        )}
+      </div>
 
       {loading ? (
-        <div className="font-mono text-sm text-ink/50">Loading…</div>
+        <div className="font-mono text-sm text-muted">Loading…</div>
       ) : items.length === 0 ? (
         <Empty isAdmin={isAdmin} onAdd={openNew} />
       ) : (
         <SortableList items={items} onReorder={reorder} disabled={!isAdmin}>
-          <div className="border-t border-ink/15">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {items.map((item, idx) => (
               <EditShell
                 key={item._id}
@@ -67,9 +69,14 @@ export default function Projects() {
 
 function Empty({ isAdmin, onAdd }) {
   return (
-    <div className="py-20 text-center border border-dashed border-ink/20">
-      <div className="font-display text-3xl tracking-tightest text-ink/50">No projects yet.</div>
-      {isAdmin && <button className="btn-ember mt-6" onClick={onAdd}>+ Add the first one</button>}
+    <div className="py-20 text-center border-1.5 border-dashed border-border rounded-xl bg-card">
+      <div className="text-muted font-italic">No projects added yet.</div>
+      {isAdmin && (
+        <button className="proj-btn proj-btn-primary mt-6 mx-auto" onClick={onAdd}>
+          + Add the first one
+        </button>
+      )}
     </div>
   );
 }
+

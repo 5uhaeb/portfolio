@@ -1,11 +1,16 @@
 import { useState } from 'react';
 import { useRealtimeList } from '../lib/useRealtimeList.js';
 import { useAuth } from '../context/AuthContext.jsx';
-import SectionHeader from '../components/SectionHeader.jsx';
-import SortableList from '../components/SortableList.jsx';
 import EditShell from '../components/EditShell.jsx';
-import SkillCard from '../components/cards/SkillCard.jsx';
 import SkillEditor from '../components/editors/SkillEditor.jsx';
+
+const CATEGORY_STYLES = {
+  'programming languages': 'hi',
+  'data & analytics': 'teal',
+  'web & tools': 'amber',
+  'concepts & theory': '',
+  'soft skills': '',
+};
 
 export default function Skills() {
   const { items, loading, create, update, remove, reorder } = useRealtimeList('skills');
@@ -13,14 +18,8 @@ export default function Skills() {
   const [editorOpen, setEditorOpen] = useState(false);
   const [editing, setEditing] = useState(null);
 
-  function openNew() {
-    setEditing(null);
-    setEditorOpen(true);
-  }
-  function openEdit(item) {
-    setEditing(item);
-    setEditorOpen(true);
-  }
+  function openNew() { setEditing(null); setEditorOpen(true); }
+  function openEdit(item) { setEditing(item); setEditorOpen(true); }
   async function onSave(payload) {
     if (editing) await update(editing._id, payload);
     else await create(payload);
@@ -29,41 +28,56 @@ export default function Skills() {
     if (confirm(`Delete skill "${item.name}"?`)) await remove(item._id);
   }
 
+  // Grouping logic
+  const groups = items.reduce((acc, item) => {
+    const cat = item.category || 'Other';
+    if (!acc[cat]) acc[cat] = [];
+    acc[cat].push(item);
+    return acc;
+  }, {});
+
   return (
-    <div className="page-in mx-auto max-w-7xl px-6 lg:px-10 py-16 lg:py-24">
-      <SectionHeader
-        number="02"
-        title={<>My <span className="italic">skills</span>.</>}
-        subtitle="Languages, frameworks and tools I reach for — ordered by how much I lean on them."
-        action={
-          isAdmin && (
-            <button className="btn-ember" onClick={openNew}>
-              + Add skill
-            </button>
-          )
-        }
-      />
+    <div className="page-in">
+      <div className="sec-head">
+        <span className="sec-label">Skills</span>
+        <div className="sec-line"></div>
+        {isAdmin && (
+          <button className="proj-btn proj-btn-primary" onClick={openNew}>
+            + Add Skill
+          </button>
+        )}
+      </div>
 
       {loading ? (
-        <div className="font-mono text-sm text-ink/50">Loading…</div>
+        <div className="font-mono text-sm text-muted">Loading…</div>
       ) : items.length === 0 ? (
         <EmptyState isAdmin={isAdmin} onAdd={openNew} label="skills" />
       ) : (
-        <SortableList items={items} onReorder={reorder} disabled={!isAdmin}>
-          <div className="border-t border-ink/15">
-            {items.map((item) => (
-              <EditShell
-                key={item._id}
-                id={item._id}
-                isAdmin={isAdmin}
-                onEdit={() => openEdit(item)}
-                onDelete={() => onDelete(item)}
-              >
-                <SkillCard item={item} />
-              </EditShell>
-            ))}
-          </div>
-        </SortableList>
+        <div className="space-y-8">
+          {Object.entries(groups).map(([cat, skills]) => (
+            <div key={cat} className="skills-block">
+              <div className="text-[12px] font-bold text-muted uppercase tracking-[0.08em] mb-3">
+                {cat}
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {skills.map((item) => (
+                  <EditShell
+                    key={item._id}
+                    id={item._id}
+                    isAdmin={isAdmin}
+                    onEdit={() => openEdit(item)}
+                    onDelete={() => onDelete(item)}
+                    className="inline-block"
+                  >
+                    <div className={`skill-tag ${CATEGORY_STYLES[cat.toLowerCase()] || ''}`}>
+                      {item.name}
+                    </div>
+                  </EditShell>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
       )}
 
       <SkillEditor
@@ -78,15 +92,10 @@ export default function Skills() {
 
 function EmptyState({ isAdmin, onAdd, label }) {
   return (
-    <div className="py-20 text-center border border-dashed border-ink/20">
-      <div className="font-display text-3xl tracking-tightest text-ink/50">
-        No {label} yet.
-      </div>
-      {isAdmin && (
-        <button className="btn-ember mt-6" onClick={onAdd}>
-          + Add the first one
-        </button>
-      )}
+    <div className="py-20 text-center border-1.5 border-dashed border-border rounded-xl bg-card">
+      <div className="text-muted font-italic">No {label} added yet.</div>
+      {isAdmin && <button className="proj-btn proj-btn-primary mt-6 mx-auto" onClick={onAdd}>+ Add the first one</button>}
     </div>
   );
 }
+
