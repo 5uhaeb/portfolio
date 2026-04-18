@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  body {
+    @apply bg-paper text-ink font-body antialiased;
+    font-feature-settings: 'ss01', 'ss02', 'cv11';
+  }
+  /* Fraunces looks best with its optical sizing cranked up at display sizes */
+  .font-display {
+    font-optical-sizing: auto;
+    font-variation-settings: 'opsz' 144, 'SOFT' 50;
+  }
+  ::selection {
+    background: #14130F;
+    color: #F5F1EA;
+  }
+}
+
+@layer components {
+  /* Hairline rule used to separate sections, cards, rows */
+  .rule {
+    @apply border-t border-ink/15;
+  }
+  .rule-b {
+    @apply border-b border-ink/15;
+  }
+
+  /* Numbered eyebrow label used above section titles */
+  .eyebrow {
+    @apply font-mono text-[11px] uppercase tracking-[0.18em] text-ink/60;
+  }
+
+  /* Ember pill used for actions in edit mode */
+  .btn-ember {
+    @apply inline-flex items-center gap-2 bg-ember text-paper px-4 py-2 text-sm font-medium
+           hover:bg-ink transition-colors duration-200;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 border border-ink/20 text-ink px-4 py-2 text-sm
+           hover:border-ink transition-colors duration-200;
+  }
+  .btn-danger {
+    @apply inline-flex items-center gap-2 border border-red-700/40 text-red-800 px-4 py-2 text-sm
+           hover:bg-red-700 hover:text-paper hover:border-red-700 transition-colors duration-200;
+  }
+
+  .input {
+    @apply w-full bg-paper border-b border-ink/25 focus:border-ink outline-none
+           py-2 font-body text-ink placeholder:text-ink/35
+           transition-colors duration-150;
+  }
+  .textarea {
+    @apply w-full bg-paper border border-ink/25 focus:border-ink outline-none
+           p-3 font-body text-ink placeholder:text-ink/35 resize-y
+           transition-colors duration-150;
+  }
+  .label {
+    @apply block font-mono text-[11px] uppercase tracking-[0.18em] text-ink/60 mb-1;
+  }
+}
+
+/* Drag cursor while sorting */
+.dragging-shell {
+  cursor: grabbing !important;
+}
+
+/* Subtle page-in fade for route transitions */
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.page-in {
+  animation: pageIn 320ms ease-out both;
+}
