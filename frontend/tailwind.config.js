@@ -10,11 +10,16 @@ export default {
         mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
       },
       colors: {
-        paper: '#F5F1EA',      // warm off-white
-        ink: '#14130F',         // near-black
-        ember: '#D8572A',       // the bold accent (terracotta/ember)
-        dust: '#8C8578',        // muted secondary
-        hairline: '#1C1B17',    // very dark for rules
+        bg: 'var(--bg)',
+        surface: 'var(--surface)',
+        card: 'var(--card)',
+        border: 'var(--border)',
+        text: 'var(--text)',
+        muted: 'var(--muted)',
+        accent: 'var(--accent)',
+        accent2: 'var(--accent2)',
+        'accent-bg': 'var(--accent-bg)',
+        'accent2-bg': 'var(--accent2-bg)',
       },
       letterSpacing: {
         tightest: '-0.04em',
