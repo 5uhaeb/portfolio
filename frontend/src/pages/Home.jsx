@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useHomeData } from '../lib/useHomeData.js';
 import { useAuth } from '../context/AuthContext.jsx';
 import HomeEditor from '../components/editors/HomeEditor.jsx';
+import photoUrl from '../assets/photo.jpg';
 
 export default function Home() {
   const { data, loading, save } = useHomeData();
@@ -19,14 +20,25 @@ export default function Home() {
 
   return (
     <div className="page-in hero">
-      <div className="hero-tag font-mono text-[11px] text-accent2 tracking-[0.14em] uppercase mb-5 flex items-center gap-2">
-        <span className="w-1.5 h-1.5 rounded-full bg-accent2 animate-blink" />
-        CS Undergrad · VIT-AP University
-      </div>
+      <div className="flex flex-col md:flex-row gap-10 items-start md:items-center mb-8">
+        <div className="flex-1">
+          <div className="hero-tag font-mono text-[11px] text-accent2 tracking-[0.14em] uppercase mb-5 flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-accent2 animate-blink" />
+            CS Undergrad · VIT-AP University
+          </div>
 
-      <h1 className="text-clamp(2.6rem,6vw,4.2rem) leading-[1.05] mb-5">
-        Hello, I'm<br /><span className="text-accent italic">Suhaeb Shaik</span>
-      </h1>
+          <h1 className="text-clamp(2.6rem,6vw,4.2rem) leading-[1.05] mb-5">
+            Hello, I'm<br /><span className="text-accent italic">Suhaeb Shaik</span>
+          </h1>
+        </div>
+        <div className="shrink-0">
+          <img 
+            src={photoUrl} 
+            alt="Suhaeb Shaik" 
+            className="w-40 h-40 md:w-48 md:h-48 object-cover rounded-full border-4 border-surface shadow-md"
+          />
+        </div>
+      </div>
 
       <p className="hero-bio text-[15px] text-muted max-w-[460px] mb-8 leading-[1.75]">
         {data.bio || "Enthusiastic CS undergraduate with a strong foundation in programming, databases, and data analysis. I turn raw data into meaningful insights and build tools that matter."}

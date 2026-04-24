@@ -9,18 +9,18 @@
 
 @layer base {
   :root {
-    --bg: #f5f3ef;
+    --bg: #fafafa;
     --surface: #ffffff;
-    --card: #faf9f7;
-    --border: #e4e0d8;
-    --text: #1a1814;
-    --muted: #7a7670;
-    --accent: #4a3fa0; /* Indigo/Purple */
-    --accent2: #1a9e82; /* Teal */
-    --accent-bg: #eeecfa;
-    --accent2-bg: #e4f5f1;
-    --shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
-    --shadow-md: 0 4px 24px rgba(0, 0, 0, 0.10);
+    --card: #ffffff;
+    --border: #eaeaea;
+    --text: #111111;
+    --muted: #666666;
+    --accent: #111111; /* Black */
+    --accent2: #444444; /* Dark Gray */
+    --accent-bg: #f0f0f0;
+    --accent2-bg: #f5f5f5;
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05);
   }
 
   html, body, #root {
@@ -61,10 +61,10 @@
     @apply font-mono text-[11px] px-3 py-1 rounded-full bg-card border border-border text-muted;
   }
   .chip-hi {
-    @apply bg-accent-bg border-[#c5bfef] text-accent;
+    @apply bg-accent-bg border-border text-accent;
   }
   .chip-teal {
-    @apply bg-accent2-bg border-[#9fd8cc] text-accent2;
+    @apply bg-accent2-bg border-border text-accent2;
   }
 
   .proj-card {
@@ -83,9 +83,9 @@
   .skill-tag {
     @apply font-mono text-[12px] px-3.5 py-1.5 rounded-md bg-card border border-border text-muted;
   }
-  .skill-tag.hi { @apply bg-accent-bg border-[#c5bfef] text-accent; }
-  .skill-tag.teal { @apply bg-accent2-bg border-[#9fd8cc] text-accent2; }
-  .skill-tag.amber { @apply bg-[#fff8e6] border-[#f0d48a] text-[#7a5c00]; }
+  .skill-tag.hi { @apply bg-accent-bg border-border text-accent; }
+  .skill-tag.teal { @apply bg-accent2-bg border-border text-accent2; }
+  .skill-tag.amber { @apply bg-[#f9f9f9] border-border text-[#333333]; }
 }
 
 @keyframes blink {
