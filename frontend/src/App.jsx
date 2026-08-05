@@ -10,7 +10,7 @@ export default function App() {
   return (
     <div className="layout flex min-h-screen bg-[#f5f3ef]">
       <Sidebar />
-      <main className="main flex-1 p-12 lg:p-12 lg:pb-24 max-w-[920px]">
+      <main className="main flex-1 px-5 pb-12 pt-32 md:px-8 lg:p-12 lg:pb-24 max-w-[920px]">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/skills" element={<Skills />} />

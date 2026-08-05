@@ -17,6 +17,37 @@ export default function Sidebar() {
 
   return (
     <>
+      <header className="lg:hidden fixed inset-x-0 top-0 z-40 bg-white/95 backdrop-blur border-b border-border px-4 py-3">
+        <div className="flex items-center justify-between gap-4">
+          <NavLink to="/" className="font-serif text-lg leading-none text-text">
+            Suhaeb <span className="text-accent italic">Shaik</span>
+          </NavLink>
+          <button
+            type="button"
+            onClick={isAdmin ? logout : () => setLoginOpen(true)}
+            className="font-mono text-[11px] text-muted hover:text-accent transition-colors"
+          >
+            {isAdmin ? 'Sign out' : 'Admin login'}
+          </button>
+        </div>
+        <nav className="flex gap-1 mt-3 overflow-x-auto pb-1" aria-label="Primary navigation">
+          {LINKS.map((link) => (
+            <NavLink
+              key={link.to}
+              to={link.to}
+              end={link.to === '/'}
+              className={({ isActive }) =>
+                `font-mono text-[11px] whitespace-nowrap px-3 py-1.5 rounded-md transition-colors ${
+                  isActive ? 'bg-accent text-white' : 'text-muted hover:bg-accent-bg hover:text-accent'
+                }`
+              }
+            >
+              {link.label}
+            </NavLink>
+          ))}
+        </nav>
+      </header>
+
       <aside className="w-[240px] min-h-screen bg-white border-r border-border p-10 flex flex-direction-column gap-0 sticky top-0 h-screen overflow-hidden hidden lg:flex flex-col">
         <div className="logo font-serif text-[22px] leading-[1.1] mb-8 text-text">
           Suhaeb<br /><span className="text-accent italic">Shaik</span>
@@ -36,7 +67,7 @@ export default function Sidebar() {
                 }`
               }
             >
-              <span className="dot w-[5px] height-[5px] rounded-full bg-current shrink-0" />
+              <span className="dot w-[5px] h-[5px] rounded-full bg-current shrink-0" />
               {link.label}
             </NavLink>
           ))}

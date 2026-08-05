@@ -10,6 +10,7 @@ const HomeSchema = new mongoose.Schema(
     bio: { type: String, default: '' },
     location: { type: String, default: '' },
     email: { type: String, default: '' },
+    phone: { type: String, default: '' },
     avatarUrl: { type: String, default: '' },
     socials: {
       github: { type: String, default: '' },

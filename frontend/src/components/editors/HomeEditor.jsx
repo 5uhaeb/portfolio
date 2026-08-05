@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Modal from '../Modal.jsx';
 
 const EMPTY = {
-  name: '', role: '', tagline: '', bio: '', location: '', email: '', avatarUrl: '',
+  name: '', role: '', tagline: '', bio: '', location: '', email: '', phone: '', avatarUrl: '',
   socials: { github: '', linkedin: '', twitter: '', website: '' },
 };
 
@@ -70,6 +70,10 @@ export default function HomeEditor({ open, onClose, initial, onSave }) {
         <div>
           <label className="label">Email</label>
           <input className="input" value={form.email} onChange={(e) => set('email', e.target.value)} />
+        </div>
+        <div>
+          <label className="label">Phone</label>
+          <input className="input" value={form.phone} onChange={(e) => set('phone', e.target.value)} />
         </div>
         <div className="md:col-span-2">
           <label className="label">Avatar URL</label>
