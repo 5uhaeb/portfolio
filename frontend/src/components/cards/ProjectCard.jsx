@@ -37,7 +37,16 @@ export default function ProjectCard({ item, indexLabel }) {
             GitHub ↗
           </a>
         )}
-        <button className="proj-btn flex-1 justify-center">Details</button>
+        {item.liveUrl && (
+          <a
+            href={item.liveUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="proj-btn flex-1 justify-center"
+          >
+            Live site â†—
+          </a>
+        )}
       </div>
     </article>
   );

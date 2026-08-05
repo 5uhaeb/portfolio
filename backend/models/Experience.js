@@ -9,6 +9,8 @@ const ExperienceSchema = new mongoose.Schema(
     endDate: { type: String, default: '' },   // "Present" is fine
     description: { type: String, default: '' },
     highlights: [{ type: String }],           // bullet points
+    score: { type: String, default: '' },
+    scoreLabel: { type: String, default: '' },
     order: { type: Number, default: 0 },
   },
   { timestamps: true }

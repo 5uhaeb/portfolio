@@ -4,7 +4,7 @@ import Modal from '../Modal.jsx';
 const EMPTY = {
   company: '', role: '', location: '',
   startDate: '', endDate: '',
-  description: '', highlights: '',
+  description: '', highlights: '', score: '', scoreLabel: '',
 };
 
 export default function ExperienceEditor({ open, onClose, initial, onSave }) {
@@ -103,6 +103,14 @@ export default function ExperienceEditor({ open, onClose, initial, onSave }) {
             value={form.description}
             onChange={(e) => set('description', e.target.value)}
           />
+        </div>
+        <div>
+          <label className="label">Score</label>
+          <input className="input" value={form.score} onChange={(e) => set('score', e.target.value)} placeholder="8.09 / 10" />
+        </div>
+        <div>
+          <label className="label">Score label</label>
+          <input className="input" value={form.scoreLabel} onChange={(e) => set('scoreLabel', e.target.value)} placeholder="CGPA" />
         </div>
         <div className="md:col-span-2">
           <label className="label">Highlights — one per line</label>

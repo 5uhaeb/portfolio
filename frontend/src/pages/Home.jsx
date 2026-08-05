@@ -56,9 +56,9 @@ export default function Home() {
       </p>
 
       <div className="flex flex-wrap gap-2 mb-10">
-        {["Python", "SQL", "Java"].map(s => <span key={s} className="chip chip-hi">{s}</span>)}
-        {["Pandas", "Matplotlib"].map(s => <span key={s} className="chip chip-teal">{s}</span>)}
-        {["DSA", "DBMS", "React"].map(s => <span key={s} className="chip">{s}</span>)}
+        {["C", "Java", "JavaScript"].map(s => <span key={s} className="chip chip-hi">{s}</span>)}
+        {["HTML", "CSS", "AWS"].map(s => <span key={s} className="chip chip-teal">{s}</span>)}
+        {["Docker", "Kubernetes", "DSA"].map(s => <span key={s} className="chip">{s}</span>)}
       </div>
 
       <div className="contact-grid grid grid-cols-1 md:grid-cols-2 gap-[10px] max-w-[520px]">
