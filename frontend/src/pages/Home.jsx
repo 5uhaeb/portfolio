@@ -57,12 +57,6 @@ export default function Home() {
         {data.bio || "Enthusiastic CS undergraduate with a strong foundation in programming, databases, and data analysis. I turn raw data into meaningful insights and build tools that matter."}
       </p>
 
-      <div className="flex flex-wrap gap-2 mb-10">
-        {["C", "Java", "JavaScript"].map(s => <span key={s} className="chip chip-hi">{s}</span>)}
-        {["HTML", "CSS", "AWS"].map(s => <span key={s} className="chip chip-teal">{s}</span>)}
-        {["Docker", "Kubernetes", "DSA"].map(s => <span key={s} className="chip">{s}</span>)}
-      </div>
-
       <div className="contact-grid grid grid-cols-1 md:grid-cols-2 gap-[10px] max-w-[520px]">
         {data.email && (
           <div className="contact-item bg-white border border-border rounded-lg p-3 px-4 flex items-center gap-3 shadow-sm">
