@@ -3,11 +3,13 @@ import { useHomeData } from '../lib/useHomeData.js';
 import { useAuth } from '../context/AuthContext.jsx';
 import HomeEditor from '../components/editors/HomeEditor.jsx';
 import photoUrl from '../assets/photo.jpg';
+import { useLocalImage } from '../lib/localImages.js';
 
 export default function Home() {
   const { data, loading, save } = useHomeData();
   const { isAdmin } = useAuth();
   const [editing, setEditing] = useState(false);
+  const localAvatar = useLocalImage('profile');
 
   if (loading && !data) {
     return (
@@ -20,7 +22,7 @@ export default function Home() {
 
   const name = data.name || 'Suhaeb Shaik';
   const role = data.role || 'CS Undergrad · VIT-AP University';
-  const avatar = data.avatarUrl || photoUrl;
+  const avatar = localAvatar || data.avatarUrl || photoUrl;
   const socialLinks = [
     ['gh', 'GitHub', data.socials?.github],
     ['in', 'LinkedIn', data.socials?.linkedin],
@@ -88,7 +90,7 @@ export default function Home() {
         ))}
         {data.location && (
           <div className="contact-item bg-white border border-border rounded-lg p-3 px-4 flex items-center gap-3 shadow-sm">
-            <span className="font-mono text-[11px] text-accent2 min-w-[20px]">📍</span>
+            <svg className="w-4 h-4 text-accent2 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2"/></svg>
             <span className="text-[13px]">{data.location}</span>
           </div>
         )}

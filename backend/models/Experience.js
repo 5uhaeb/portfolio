@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const ExperienceSchema = new mongoose.Schema(
   {
+    kind: { type: String, enum: ['education', 'experience'], default: 'experience' },
     company: { type: String, required: true },
     role: { type: String, required: true },
     location: { type: String, default: '' },

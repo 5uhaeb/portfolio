@@ -8,14 +8,15 @@ import Certificates from './pages/Certificates.jsx';
 
 export default function App() {
   return (
-    <div className="layout flex min-h-screen bg-[#f5f3ef]">
+    <div className="layout flex min-h-screen bg-bg">
       <Sidebar />
       <main className="main flex-1 px-5 pb-12 pt-32 md:px-8 lg:p-12 lg:pb-24 max-w-[920px]">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/skills" element={<Skills />} />
           <Route path="/projects" element={<Projects />} />
-          <Route path="/experience" element={<Experience />} />
+          <Route path="/education" element={<Experience kind="education" />} />
+          <Route path="/experience" element={<Experience kind="experience" />} />
           <Route path="/certificates" element={<Certificates />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

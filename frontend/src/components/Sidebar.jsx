@@ -1,12 +1,13 @@
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import LoginModal from './LoginModal.jsx';
 
 const LINKS = [
   { to: '/', label: 'Home' },
   { to: '/projects', label: 'Projects' },
   { to: '/skills', label: 'Skills' },
+  { to: '/education', label: 'Education' },
   { to: '/experience', label: 'Experience' },
   { to: '/certificates', label: 'Certificates' },
 ];
@@ -14,10 +15,16 @@ const LINKS = [
 export default function Sidebar() {
   const { isAdmin, logout } = useAuth();
   const [loginOpen, setLoginOpen] = useState(false);
+  const [dark, setDark] = useState(() => document.documentElement.classList.contains('dark'));
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', dark);
+    localStorage.setItem('theme', dark ? 'dark' : 'light');
+  }, [dark]);
 
   return (
     <>
-      <header className="lg:hidden fixed inset-x-0 top-0 z-40 bg-white/95 backdrop-blur border-b border-border px-4 py-3">
+      <header className="lg:hidden fixed inset-x-0 top-0 z-40 bg-surface border-b-2 border-[var(--outline)] px-4 py-3">
         <div className="flex items-center justify-between gap-4">
           <NavLink to="/" className="font-serif text-lg leading-none text-text">
             Suhaeb <span className="text-accent italic">Shaik</span>
@@ -48,7 +55,7 @@ export default function Sidebar() {
         </nav>
       </header>
 
-      <aside className="w-[240px] min-h-screen bg-white border-r border-border p-10 flex flex-direction-column gap-0 sticky top-0 h-screen overflow-hidden hidden lg:flex flex-col">
+      <aside className="w-[240px] min-h-screen bg-surface border-r-[2.5px] border-[var(--outline)] p-10 sticky top-0 h-screen overflow-hidden hidden lg:flex flex-col">
         <div className="logo font-serif text-[22px] leading-[1.1] mb-8 text-text">
           Suhaeb<br /><span className="text-accent italic">Shaik</span>
         </div>
@@ -74,6 +81,9 @@ export default function Sidebar() {
         </nav>
 
         <div className="mt-auto pt-8 border-t border-border space-y-4">
+          <button type="button" className="btn btn-sm w-full" onClick={() => setDark((value) => !value)}>
+            {dark ? 'Light mode' : 'Dark mode'}
+          </button>
           <div className="flex items-center gap-2 text-[12px] text-accent2">
             <span className="w-[7px] h-[7px] rounded-full bg-accent2 animate-blink" />
             Open to opportunities

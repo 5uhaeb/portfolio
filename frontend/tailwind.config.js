@@ -5,8 +5,8 @@ export default {
     extend: {
       fontFamily: {
         // Distinctive editorial serif for display, clean grotesque for body, mono for metadata
-        display: ['"Fraunces"', 'ui-serif', 'Georgia', 'serif'],
-        body: ['"Inter"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        display: ['"Space Grotesk"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        body: ['"Space Grotesk"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
       },
       colors: {
@@ -14,8 +14,8 @@ export default {
         surface: 'var(--surface)',
         card: 'var(--card)',
         border: 'var(--border)',
-        text: 'var(--text)',
-        muted: 'var(--muted)',
+        text: 'var(--ink)',
+        muted: 'var(--ink-mute)',
         accent: 'var(--accent)',
         accent2: 'var(--accent2)',
         'accent-bg': 'var(--accent-bg)',

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Modal from '../Modal.jsx';
+import { getLocalImage, imageFileToDataUrl, setLocalImage } from '../../lib/localImages.js';
 
 const EMPTY = {
   name: '', role: '', tagline: '', bio: '', location: '', email: '', phone: '', avatarUrl: '',
@@ -10,6 +11,7 @@ export default function HomeEditor({ open, onClose, initial, onSave }) {
   const [form, setForm] = useState(EMPTY);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState(null);
+  const [preview, setPreview] = useState(() => getLocalImage('profile'));
 
   useEffect(() => {
     if (open && initial) {
@@ -32,12 +34,22 @@ export default function HomeEditor({ open, onClose, initial, onSave }) {
     setErr(null);
     try {
       await onSave(form);
+      if (preview) setLocalImage('profile', preview);
       onClose();
     } catch (e) {
       setErr(e?.response?.data?.error || e.message);
     } finally {
       setBusy(false);
     }
+  }
+
+  async function selectImage(event) {
+    try {
+      setErr(null);
+      const value = await imageFileToDataUrl(event.target.files?.[0], { maxWidth: 600, maxHeight: 600 });
+      setPreview(value);
+      setLocalImage('profile', value);
+    } catch (error) { setErr(error.message); }
   }
 
   return (
@@ -75,9 +87,16 @@ export default function HomeEditor({ open, onClose, initial, onSave }) {
           <label className="label">Phone</label>
           <input className="input" value={form.phone} onChange={(e) => set('phone', e.target.value)} />
         </div>
-        <div className="md:col-span-2">
-          <label className="label">Avatar URL</label>
-          <input className="input" value={form.avatarUrl} onChange={(e) => set('avatarUrl', e.target.value)} />
+        <div className="md:col-span-2 grid md:grid-cols-[180px_1fr] gap-4 items-center">
+          <div className="image-holder aspect-square">
+            {preview ? <img src={preview} alt="Profile preview" /> : <span className="text-muted text-sm">Profile preview</span>}
+          </div>
+          <div>
+            <label className="label">Browser-local profile picture</label>
+            <input className="input" type="file" accept="image/*" onChange={selectImage} />
+            <p className="text-xs text-muted mt-2">Instant preview; stored only in this browser, never in MongoDB.</p>
+            {preview && <button type="button" className="btn btn-sm mt-3" onClick={() => { setPreview(''); setLocalImage('profile', ''); }}>Remove picture</button>}
+          </div>
         </div>
 
         <div className="md:col-span-2 rule pt-5" />

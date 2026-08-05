@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Modal from '../Modal.jsx';
+import { getLocalImage, imageFileToDataUrl, setLocalImage } from '../../lib/localImages.js';
 
 const EMPTY = {
   title: '', issuer: '', issueDate: '', credentialId: '',
@@ -10,10 +11,12 @@ export default function CertificateEditor({ open, onClose, initial, onSave }) {
   const [form, setForm] = useState(EMPTY);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState(null);
+  const [preview, setPreview] = useState('');
 
   useEffect(() => {
     if (open) {
       setForm(initial ? { ...EMPTY, ...initial } : EMPTY);
+      setPreview(initial?._id ? getLocalImage(`credential:${initial._id}`) : '');
       setErr(null);
     }
   }, [open, initial]);
@@ -25,7 +28,9 @@ export default function CertificateEditor({ open, onClose, initial, onSave }) {
     setBusy(true);
     setErr(null);
     try {
-      await onSave(form);
+      const saved = await onSave(form);
+      const id = initial?._id || saved?._id;
+      if (id) setLocalImage(`credential:${id}`, preview);
       onClose();
     } catch (e) {
       setErr(e?.response?.data?.error || e.message);
@@ -34,9 +39,27 @@ export default function CertificateEditor({ open, onClose, initial, onSave }) {
     }
   }
 
+  async function selectImage(event) {
+    try {
+      setErr(null);
+      setPreview(await imageFileToDataUrl(event.target.files?.[0]));
+    } catch (error) { setErr(error.message); }
+  }
+
   return (
     <Modal open={open} onClose={onClose} title={initial ? 'Edit item' : 'New certificate / achievement'}>
       <form onSubmit={submit} className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className="md:col-span-2 grid md:grid-cols-[220px_1fr] gap-4 items-center">
+          <div className="image-holder">
+            {preview ? <img src={preview} alt="Credential preview" /> : <span className="text-muted text-sm">Snapshot preview</span>}
+          </div>
+          <div>
+            <label className="label">Browser-local snapshot</label>
+            <input className="input" type="file" accept="image/*" onChange={selectImage} />
+            <p className="text-xs text-muted mt-2">Compressed and stored only in this browser, never in MongoDB.</p>
+            {preview && <button type="button" className="btn btn-sm mt-3" onClick={() => setPreview('')}>Remove snapshot</button>}
+          </div>
+        </div>
         <div className="md:col-span-2">
           <label className="label">Kind</label>
           <div className="flex gap-2">

@@ -1,6 +1,6 @@
 export default function ProjectCard({ item, indexLabel }) {
   return (
-    <article className="proj-card bg-white border border-border rounded-xl p-6 shadow-sm flex flex-col gap-3 transition-all duration-200 hover:shadow-md h-full">
+    <article className="proj-card p-6 flex flex-col gap-3 transition-all duration-200 h-full">
       <div className="flex items-start justify-between gap-2">
         <span className="font-mono text-[10px] text-muted">{indexLabel || '01'}</span>
         <span className="font-mono text-[10px] px-2 py-0.5 rounded-full bg-accent2-bg text-accent2 border border-[#9fd8cc]">

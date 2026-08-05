@@ -15,8 +15,8 @@ export default function Certificates() {
   const openEdit = (i) => { setEditing(i); setEditorOpen(true); };
 
   async function onSave(payload) {
-    if (editing) await update(editing._id, payload);
-    else await create(payload);
+    if (editing) return update(editing._id, payload);
+    return create(payload);
   }
   async function onDelete(item) {
     if (confirm(`Delete?`)) await remove(item._id);

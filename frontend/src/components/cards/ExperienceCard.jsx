@@ -1,6 +1,6 @@
 export default function ExperienceCard({ item }) {
   return (
-    <article className="bg-white border border-border rounded-lg p-5 px-6 shadow-sm flex items-start justify-between gap-5 flex-wrap">
+    <article className="experience-card p-5 px-6 flex items-start justify-between gap-5 flex-wrap">
       <div className="flex-1 min-w-[240px]">
         <div className="text-[15px] font-bold text-text mb-0.5">
           {item.role || item.degree}
