@@ -1,29 +1,40 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { rateLimit } = require('express-rate-limit');
 const User = require('../models/User');
 const { requireAuth, requireAdmin } = require('../middleware/auth');
 
 const router = express.Router();
 
 // POST /api/auth/login — returns a JWT on success
-router.post('/login', async (req, res) => {
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 10,
+  standardHeaders: 'draft-8',
+  legacyHeaders: false,
+  skipSuccessfulRequests: true,
+  message: { error: 'Too many login attempts. Try again later.' },
+});
+
+router.post('/login', loginLimiter, async (req, res) => {
   try {
     const { username, password } = req.body || {};
-    if (!username || !password) {
+    if (typeof username !== 'string' || !username.trim() || username.length > 100 ||
+        typeof password !== 'string' || !password || Buffer.byteLength(password) > 72) {
       return res.status(400).json({ error: 'username and password are required' });
     }
 
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ username: username.trim() });
     if (!user) return res.status(401).json({ error: 'Invalid credentials' });
 
     const ok = await bcrypt.compare(password, user.passwordHash);
     if (!ok) return res.status(401).json({ error: 'Invalid credentials' });
 
     const token = jwt.sign(
-      { id: user._id.toString(), username: user.username, role: user.role },
+      { id: user._id.toString(), username: user.username, role: user.role, version: user.tokenVersion ?? 0 },
       process.env.JWT_SECRET,
-      { expiresIn: '7d' }
+      { expiresIn: '1d', algorithm: 'HS256' }
     );
 
     res.json({
@@ -31,7 +42,7 @@ router.post('/login', async (req, res) => {
       user: { id: user._id, username: user.username, role: user.role },
     });
   } catch (err) {
-    console.error('[auth/login]', err);
+    console.error('[auth/login]');
     res.status(500).json({ error: 'Server error' });
   }
 });
@@ -45,7 +56,8 @@ router.get('/me', requireAuth, (req, res) => {
 router.post('/change-password', requireAuth, requireAdmin, async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body || {};
-    if (!currentPassword || !newPassword) {
+    if (typeof currentPassword !== 'string' || !currentPassword || Buffer.byteLength(currentPassword) > 72 ||
+        typeof newPassword !== 'string' || !newPassword || Buffer.byteLength(newPassword) > 72) {
       return res.status(400).json({ error: 'currentPassword and newPassword are required' });
     }
     if (newPassword.length < 8) {
@@ -59,11 +71,12 @@ router.post('/change-password', requireAuth, requireAdmin, async (req, res) => {
     if (!ok) return res.status(401).json({ error: 'Current password is incorrect' });
 
     user.passwordHash = await bcrypt.hash(newPassword, 12);
+    user.tokenVersion = (user.tokenVersion ?? 0) + 1;
     await user.save();
 
     res.json({ ok: true });
   } catch (err) {
-    console.error('[auth/change-password]', err);
+    console.error('[auth/change-password]');
     res.status(500).json({ error: 'Server error' });
   }
 });

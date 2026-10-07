@@ -1,85 +1,20 @@
-require('dotenv').config();
-const http = require('http');
-const express = require('express');
-const cors = require('cors');
+require('dotenv').config({ path: require('node:path').join(__dirname, '.env') });
+const http = require('node:http');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const { Server: IOServer } = require('socket.io');
-
+const { Server } = require('socket.io');
 const User = require('./models/User');
-const Skill = require('./models/Skill');
-const Project = require('./models/Project');
-const Experience = require('./models/Experience');
-const Certificate = require('./models/Certificate');
+const createApp = require('./app');
+const { isAllowedOrigin } = require('./middleware/origins');
+const { MONGODB_URI, JWT_SECRET, ADMIN_USERNAME, ADMIN_PASSWORD, PORT = 4000 } = process.env;
 
-const authRoutes = require('./routes/auth');
-const createHomeRouter = require('./routes/home');
-const createCrudRouter = require('./routes/crud');
-
-const PORT = process.env.PORT || 4000;
-const {
-  MONGODB_URI,
-  JWT_SECRET,
-  ADMIN_USERNAME,
-  ADMIN_PASSWORD,
-  CORS_ORIGINS = '',
-} = process.env;
-
-if (!MONGODB_URI) {
-  console.error('Missing MONGODB_URI in environment');
-  process.exit(1);
-}
-if (!JWT_SECRET) {
-  console.error('Missing JWT_SECRET in environment');
-  process.exit(1);
-}
-
-// Allowed origins for both HTTP and websocket. Empty string means "allow all" — handy for
-// local dev but you should set CORS_ORIGINS in production.
-const allowedOrigins = CORS_ORIGINS.split(',').map((s) => s.trim()).filter(Boolean);
-const corsOptions = {
-  origin: (origin, cb) => {
-    if (!origin || allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
-      return cb(null, true);
-    }
-    return cb(new Error(`Origin ${origin} not allowed by CORS`));
-  },
-  credentials: true,
-};
-
-const app = express();
-app.use(cors(corsOptions));
-app.use(express.json({ limit: '2mb' }));
-
-// Health check — Render pings this to know the service is up
-app.get('/', (_req, res) => {
-  res.json({ ok: true, service: 'portfolio-backend' });
-});
-app.get('/api/health', (_req, res) => {
-  res.json({ ok: true, time: new Date().toISOString() });
-});
-
+const app = createApp();
 const server = http.createServer(app);
-const io = new IOServer(server, {
-  cors: {
-    origin: allowedOrigins.length ? allowedOrigins : true,
-    credentials: true,
-  },
+const io = new Server(server, {
+  allowRequest: (req, callback) => callback(null, isAllowedOrigin(req.headers.origin)),
+  cors: { origin: (origin, callback) => callback(null, isAllowedOrigin(origin)) },
 });
-
-io.on('connection', (socket) => {
-  // Connection logging only — all broadcasts are driven by route handlers
-  console.log(`[io] client connected ${socket.id}`);
-  socket.on('disconnect', () => console.log(`[io] client disconnected ${socket.id}`));
-});
-
-// Wire routes
-app.use('/api/auth', authRoutes);
-app.use('/api/home', createHomeRouter(io));
-app.use('/api/skills', createCrudRouter({ Model: Skill, resource: 'skills', io }));
-app.use('/api/projects', createCrudRouter({ Model: Project, resource: 'projects', io }));
-app.use('/api/experience', createCrudRouter({ Model: Experience, resource: 'experience', io }));
-app.use('/api/certificates', createCrudRouter({ Model: Certificate, resource: 'certificates', io }));
+app.set('io', io);
 
 // Bootstrap exactly one admin user from env on first boot
 async function ensureAdminUser() {
@@ -89,8 +24,10 @@ async function ensureAdminUser() {
     return;
   }
   if (!ADMIN_USERNAME || !ADMIN_PASSWORD) {
-    console.warn('[bootstrap] No admin exists AND ADMIN_USERNAME/ADMIN_PASSWORD are not set — nobody can log in!');
-    return;
+    throw new Error('Set ADMIN_USERNAME and ADMIN_PASSWORD for first-boot admin creation');
+  }
+  if (ADMIN_PASSWORD.length < 12 || Buffer.byteLength(ADMIN_PASSWORD) > 72) {
+    throw new Error('Initial admin password must have 12+ characters and at most 72 UTF-8 bytes');
   }
   const passwordHash = await bcrypt.hash(ADMIN_PASSWORD, 12);
   await User.create({ username: ADMIN_USERNAME, passwordHash, role: 'admin' });
@@ -98,16 +35,17 @@ async function ensureAdminUser() {
 }
 
 async function main() {
+  if (!MONGODB_URI) throw new Error('MONGODB_URI is required');
+  if (!JWT_SECRET || JWT_SECRET.length < 32) throw new Error('JWT_SECRET must contain at least 32 characters');
+  if (process.env.NODE_ENV === 'production' && !process.env.CORS_ORIGINS?.trim()) {
+    throw new Error('Set CORS_ORIGINS to the production frontend origin');
+  }
   await mongoose.connect(MONGODB_URI);
-  console.log('[db] connected');
   await ensureAdminUser();
-
-  server.listen(PORT, () => {
-    console.log(`[http] listening on :${PORT}`);
-  });
+  server.listen(PORT, () => console.log(`[http] listening on :${PORT}`));
 }
 
-main().catch((err) => {
-  console.error('Fatal startup error', err);
+main().catch(() => {
+  console.error('Startup failed: check MongoDB access, JWT_SECRET, origins and bootstrap credentials.');
   process.exit(1);
 });
