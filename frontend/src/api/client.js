@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+export const API_URL = (import.meta.env.VITE_API_URL || 'http://localhost:4000').replace(/\/+$/, '');
 const TOKEN_KEY = 'portfolio_token';
 
 export function getToken() {
@@ -9,6 +9,7 @@ export function getToken() {
 export function setToken(token) {
   if (token) localStorage.setItem(TOKEN_KEY, token);
   else localStorage.removeItem(TOKEN_KEY);
+  window.dispatchEvent(new Event('portfolio-auth-changed'));
 }
 
 export const api = axios.create({

@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useId } from 'react';
 
 export default function Modal({ open, onClose, children, title, wide = false }) {
+  const titleId = useId();
   useEffect(() => {
     if (!open) return;
     const onKey = (e) => {
@@ -24,10 +25,13 @@ export default function Modal({ open, onClose, children, title, wide = false }) 
       }}
     >
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
         className={`relative w-full ${wide ? 'max-w-3xl' : 'max-w-xl'} bg-paper border border-ink/20 shadow-2xl`}
       >
         <div className="flex items-center justify-between border-b border-ink/15 px-6 py-4">
-          <h2 className="font-display text-xl tracking-tightest">{title}</h2>
+          <h2 id={titleId} className="font-display text-xl tracking-tightest">{title}</h2>
           <button
             onClick={onClose}
             className="font-mono text-xs uppercase tracking-widest text-ink/60 hover:text-ink"

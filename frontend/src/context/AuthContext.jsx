@@ -7,6 +7,16 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [ready, setReady] = useState(false);
 
+  useEffect(() => {
+    const onChanged = () => { if (!getToken()) setUser(null); };
+    window.addEventListener('portfolio-auth-changed', onChanged);
+    window.addEventListener('storage', onChanged);
+    return () => {
+      window.removeEventListener('portfolio-auth-changed', onChanged);
+      window.removeEventListener('storage', onChanged);
+    };
+  }, []);
+
   // On mount, if we have a token, verify it by hitting /auth/me
   useEffect(() => {
     let cancelled = false;

@@ -22,7 +22,7 @@ export function useRealtimeList(resource) {
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
-    api
+    const load = () => api
       .get(`/${resource}`)
       .then((res) => {
         if (!cancelled) {
@@ -36,14 +36,17 @@ export function useRealtimeList(resource) {
       .finally(() => {
         if (!cancelled) setLoading(false);
       });
+    load();
+    socket.on('connect', load);
     return () => {
+      socket.off('connect', load);
       cancelled = true;
     };
   }, [resource]);
 
   // Socket subscriptions
   useEffect(() => {
-    const onCreated = (doc) => setItems((prev) => [...prev, doc]);
+    const onCreated = (doc) => setItems((prev) => prev.some(item => item._id === doc._id) ? prev : [...prev, doc]);
     const onUpdated = (doc) =>
       setItems((prev) => prev.map((it) => (it._id === doc._id ? doc : it)));
     const onDeleted = ({ _id }) =>
@@ -66,7 +69,7 @@ export function useRealtimeList(resource) {
   const create = useCallback(
     async (payload) => {
       const { data } = await api.post(`/${resource}`, payload);
-      // Don't bother updating local state — socket event will arrive and do it
+      setItems(prev => prev.some(item => item._id === data._id) ? prev : [...prev, data]);
       return data;
     },
     [resource]
@@ -75,6 +78,7 @@ export function useRealtimeList(resource) {
   const update = useCallback(
     async (id, payload) => {
       const { data } = await api.put(`/${resource}/${id}`, payload);
+      setItems(prev => prev.map(item => item._id === data._id ? data : item));
       return data;
     },
     [resource]
@@ -83,18 +87,29 @@ export function useRealtimeList(resource) {
   const remove = useCallback(
     async (id) => {
       await api.delete(`/${resource}/${id}`);
+      setItems(prev => prev.filter(item => item._id !== id));
     },
     [resource]
   );
 
   const reorder = useCallback(
     async (ids) => {
-      // Optimistic: reorder locally so dragging feels instant
-      setItems((prev) => {
-        const byId = new Map(prev.map((it) => [it._id, it]));
-        return ids.map((id) => byId.get(id)).filter(Boolean);
+      // Preserve other categories when dragging only education/experience items.
+      setItems(prev => {
+        const byId = new Map(prev.map(item => [item._id, item]));
+        const selected = new Set(ids);
+        const sorted = ids.map(id => byId.get(id)).filter(Boolean);
+        let index = 0;
+        return prev.map(item => selected.has(item._id) ? sorted[index++] : item);
       });
-      await api.put(`/${resource}/reorder`, { ids });
+      try {
+        const { data } = await api.put(`/${resource}/reorder`, { ids });
+        setItems(data);
+        setError(null);
+      } catch (err) {
+        setError(err?.response?.data?.error || 'Could not save item order.');
+        try { const { data } = await api.get(`/${resource}`); setItems(data); } catch { /* Keep the error visible. */ }
+      }
     },
     [resource]
   );
