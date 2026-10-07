@@ -7,7 +7,7 @@ import ExperienceCard from '../components/cards/ExperienceCard.jsx';
 import ExperienceEditor from '../components/editors/ExperienceEditor.jsx';
 
 export default function Experience({ kind = 'experience' }) {
-  const { items, loading, create, update, remove, reorder } = useRealtimeList('experience');
+  const { items, loading, error, create, update, remove, reorder } = useRealtimeList('experience');
   const { isAdmin } = useAuth();
   const [editorOpen, setEditorOpen] = useState(false);
   const [editing, setEditing] = useState(null);
@@ -39,6 +39,7 @@ export default function Experience({ kind = 'experience' }) {
         )}
       </div>
 
+      {error && <p role="alert" className="text-red-800 mb-4">{error}</p>}
       {loading ? (
         <div className="font-mono text-sm text-muted">Loading…</div>
       ) : visibleItems.length === 0 ? (

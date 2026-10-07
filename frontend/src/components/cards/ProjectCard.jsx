@@ -1,10 +1,13 @@
+import { webUrl } from '../../lib/webUrl.js';
 export default function ProjectCard({ item, indexLabel }) {
+  const repoUrl = webUrl(item.repoUrl);
+  const liveUrl = webUrl(item.liveUrl);
   return (
     <article className="proj-card p-6 flex flex-col gap-3 transition-all duration-200 h-full">
       <div className="flex items-start justify-between gap-2">
         <span className="font-mono text-[10px] text-muted">{indexLabel || '01'}</span>
         <span className="font-mono text-[10px] px-2 py-0.5 rounded-full bg-accent2-bg text-accent2 border border-[#9fd8cc]">
-          Completed
+          {item.year || "Project"}
         </span>
       </div>
 
@@ -27,9 +30,9 @@ export default function ProjectCard({ item, indexLabel }) {
       )}
 
       <div className="flex gap-2 mt-4">
-        {item.repoUrl && (
+        {repoUrl && (
           <a
-            href={item.repoUrl}
+            href={repoUrl}
             target="_blank"
             rel="noreferrer"
             className="proj-btn proj-btn-primary flex-1 justify-center"
@@ -37,14 +40,14 @@ export default function ProjectCard({ item, indexLabel }) {
             GitHub ↗
           </a>
         )}
-        {item.liveUrl && (
+        {liveUrl && (
           <a
-            href={item.liveUrl}
+            href={liveUrl}
             target="_blank"
             rel="noreferrer"
             className="proj-btn flex-1 justify-center"
           >
-            Live site â†—
+            Live site ↗
           </a>
         )}
       </div>

@@ -1,3 +1,4 @@
+import { webUrl } from '../lib/webUrl.js';
 import { useState } from 'react';
 import { useHomeData } from '../lib/useHomeData.js';
 import { useAuth } from '../context/AuthContext.jsx';
@@ -6,7 +7,7 @@ import photoUrl from '../assets/photo.jpg';
 import { useLocalImage } from '../lib/localImages.js';
 
 export default function Home() {
-  const { data, loading, save } = useHomeData();
+  const { data, loading, error, save } = useHomeData();
   const { isAdmin } = useAuth();
   const [editing, setEditing] = useState(false);
   const localAvatar = useLocalImage('profile');
@@ -18,7 +19,7 @@ export default function Home() {
       </div>
     );
   }
-  if (!data) return null;
+  if (!data) return <p role="alert">{error || "No profile available."}</p>;
 
   const name = data.name || 'Suhaeb Shaik';
   const role = data.role || 'CS Undergrad · VIT-AP University';
@@ -28,7 +29,7 @@ export default function Home() {
     ['in', 'LinkedIn', data.socials?.linkedin],
     ['x', 'X / Twitter', data.socials?.twitter],
     ['web', 'Website', data.socials?.website],
-  ].filter(([, , url]) => url);
+  ].map(([icon, label, url]) => [icon, label, webUrl(url)]).filter(([, , url]) => url);
 
   return (
     <div className="page-in hero">

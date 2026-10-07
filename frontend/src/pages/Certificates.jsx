@@ -6,7 +6,7 @@ import CertificateCard from '../components/cards/CertificateCard.jsx';
 import CertificateEditor from '../components/editors/CertificateEditor.jsx';
 
 export default function Certificates() {
-  const { items, loading, create, update, remove, reorder } = useRealtimeList('certificates');
+  const { items, loading, error, create, update, remove, reorder } = useRealtimeList('certificates');
   const { isAdmin } = useAuth();
   const [editorOpen, setEditorOpen] = useState(false);
   const [editing, setEditing] = useState(null);
@@ -34,6 +34,7 @@ export default function Certificates() {
         )}
       </div>
 
+      {error && <p role="alert" className="text-red-800 mb-4">{error}</p>}
       {loading ? (
         <div className="font-mono text-sm text-muted">Loading…</div>
       ) : items.length === 0 ? (
