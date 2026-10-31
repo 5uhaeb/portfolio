@@ -4,13 +4,16 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        // Distinctive editorial serif for display, clean grotesque for body, mono for metadata
-        display: ['"Space Grotesk"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        body: ['"Space Grotesk"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+        // Shared system font stacks avoid external font requests.
+        display: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        body: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        mono: ['ui-monospace', 'SFMono-Regular', 'monospace'],
       },
       colors: {
         bg: 'var(--bg)',
+        ink: 'var(--ink)',
+        paper: 'var(--surface)',
+        ember: 'var(--accent)',
         surface: 'var(--surface)',
         card: 'var(--card)',
         border: 'var(--border)',

@@ -6,6 +6,7 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 const Skill = require('../models/Skill');
 const Home = require('../models/Home');
+const Certificate = require('../models/Certificate');
 const createApp = require('../app');
 
 process.env.JWT_SECRET = 'test-only-secret-never-a-production-credential';
@@ -104,6 +105,22 @@ test('public home read uses defaults without creating documents', async t => {
   const response = await request('/api/home');
   assert.equal(response.status, 200);
   assert.equal((await response.json()).slug, 'home');
+});
+
+test('certificate image URLs survive admin updates and reject non-web schemes', async t => {
+  mockUser(t);
+  const imageUrl = 'https://cdn.example.com/certificate.webp';
+  t.mock.method(Certificate, 'findByIdAndUpdate', async (_id, update, options) => {
+    assert.equal(options.runValidators, true);
+    const doc = new Certificate({ title: 'Certificate', ...update.$set });
+    await doc.validate();
+    return doc;
+  });
+  const response = await request(`/api/certificates/${id}`, 'PUT', { imageUrl }, token());
+  assert.equal(response.status, 200);
+  assert.equal((await response.json()).imageUrl, imageUrl);
+  assert.equal(events[0].data.imageUrl, imageUrl);
+  assert.equal((await request(`/api/certificates/${id}`, 'PUT', { imageUrl: 'javascript:alert(1)' }, token())).status, 400);
 });
 
 test('admin updates reject nested operators and keep protected metadata out', async t => {

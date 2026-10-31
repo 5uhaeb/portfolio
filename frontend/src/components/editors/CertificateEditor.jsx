@@ -4,7 +4,7 @@ import { getLocalImage, imageFileToDataUrl, setLocalImage } from '../../lib/loca
 
 const EMPTY = {
   title: '', issuer: '', issueDate: '', credentialId: '',
-  credentialUrl: '', description: '', kind: 'certificate',
+  credentialUrl: '', imageUrl: '', description: '', kind: 'certificate',
 };
 
 export default function CertificateEditor({ open, onClose, initial, onSave }) {
@@ -59,6 +59,11 @@ export default function CertificateEditor({ open, onClose, initial, onSave }) {
             <p className="text-xs text-muted mt-2">Compressed and stored only in this browser, never in MongoDB.</p>
             {preview && <button type="button" className="btn btn-sm mt-3" onClick={() => setPreview('')}>Remove snapshot</button>}
           </div>
+        </div>
+        <div className="md:col-span-2">
+          <label className="label" htmlFor="certificate-image-url">Public certificate image URL</label>
+          <input id="certificate-image-url" className="input" type="url" placeholder="https://…/certificate.webp" value={form.imageUrl} onChange={e => set('imageUrl', e.target.value)} />
+          <p className="text-xs text-muted mt-2">Use a direct image URL so all visitors can see the certificate.</p>
         </div>
         <div className="md:col-span-2">
           <label className="label">Kind</label>

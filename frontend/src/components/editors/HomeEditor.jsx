@@ -87,6 +87,10 @@ export default function HomeEditor({ open, onClose, initial, onSave }) {
           <label className="label">Phone</label>
           <input className="input" value={form.phone} onChange={(e) => set('phone', e.target.value)} />
         </div>
+        <div className="md:col-span-2">
+          <label className="label" htmlFor="profile-image-url">Public profile image URL</label>
+          <input id="profile-image-url" type="url" className="input" value={form.avatarUrl} onChange={e => set('avatarUrl', e.target.value)} placeholder="https://…/profile.webp" />
+        </div>
         <div className="md:col-span-2 grid md:grid-cols-[180px_1fr] gap-4 items-center">
           <div className="image-holder aspect-square">
             {preview ? <img src={preview} alt="Profile preview" /> : <span className="text-muted text-sm">Profile preview</span>}

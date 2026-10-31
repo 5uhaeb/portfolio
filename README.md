@@ -10,7 +10,15 @@ An editable personal portfolio with React, Express and MongoDB. Visitors read pu
 - Public live updates, reconnect refresh and REST-response updates when the socket is unavailable.
 - Responsive navigation and light/dark presentation.
 
-Profile and certificate file previews are browser-local snapshots. They do not upload to a shared media service. A public avatar can use the stored avatar URL. Project links and social links accept HTTP/HTTPS URLs.
+Profile and certificate file previews are browser-local snapshots. They do not upload to a shared media service. Use the public profile image URL and public certificate image URL fields for images visible to all visitors. Existing browser-local certificate snapshots need to be hosted and linked once; this update cannot recover files from another browser. Project links and social links accept HTTP/HTTPS URLs.
+
+## Design and image performance
+
+The slate-and-teal theme shares tokens across light/dark modes, cards, navigation and editors. Layout inspiration: [Alirazahaider/web-dev-portfolio](https://github.com/Alirazahaider/web-dev-portfolio), a small community portfolio; the implementation is original and retains this app's React/Vite architecture and editable content.
+
+The bundled profile photo has 240px and 480px WebP variants (8KB/25KB versus the 158KB original). Responsive image selection, high fetch priority and reserved dimensions improve profile loading. Certificate images load lazily, decode asynchronously, retain their full image without cropping, and show a fallback if unavailable. Use compressed WebP images on a cacheable CDN for public URLs; arbitrary external images cannot be resized by Vite. Browser-local image imports are resized and compressed to WebP. Route and home/login editor code is split so it loads when needed; system fonts remove external font requests.
+
+Deploy both the Vercel frontend and Render backend for the new certificate `imageUrl` field. Domain setup remains a separate Vercel/DNS change.
 
 ## Architecture
 

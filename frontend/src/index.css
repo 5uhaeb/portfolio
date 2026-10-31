@@ -4,98 +4,55 @@
 
 @layer base {
   :root {
-    --bg: #fafafa;
-    --surface: #ffffff;
-    --card: #ffffff;
-    --border: #eaeaea;
-    --text: #111111;
-    --muted: #666666;
-    --accent: #111111; /* Black */
-    --accent2: #444444; /* Dark Gray */
-    --accent-bg: #f0f0f0;
-    --accent2-bg: #f5f5f5;
-    --shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05);
+    color-scheme: light;
+    --bg: #f6f8f8; --surface: #ffffff; --card: #ffffff; --border: #dce4e5;
+    --ink: #172b32; --ink-mute: #566b73; --accent: #08766d; --accent2: #08766d;
+    --accent-bg: #e6f3f0; --accent2-bg: #e6f3f0;
   }
-
-  html, body, #root {
-    height: 100%;
+  .dark {
+    color-scheme: dark;
+    --bg: #10191e; --surface: #172329; --card: #172329; --border: #30434c;
+    --ink: #e7f0f2; --ink-mute: #a3b7bf; --accent: #78dbca; --accent2: #78dbca;
+    --accent-bg: #203b3a; --accent2-bg: #203b3a;
   }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    font-size: 15px;
-    line-height: 1.7;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Fraunces', serif;
-    font-weight: 400;
-  }
-
-  .font-mono {
-    font-family: 'JetBrains Mono', monospace;
-  }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: Inter, ui-sans-serif, system-ui, sans-serif; font-size: 15px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+  h1, h2, h3, h4, h5, h6 { font-weight: 600; letter-spacing: -.035em; line-height: 1.2; }
+  button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+  button:disabled { cursor: wait; opacity: .6; }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+  ::selection { background: var(--accent-bg); color: var(--accent); }
 }
-
 @layer components {
-  .sec-head {
-    @apply flex items-center gap-3 mb-8;
-  }
-  .sec-label {
-    @apply font-mono text-[11px] text-accent tracking-[0.15em] uppercase;
-  }
-  .sec-line {
-    @apply flex-1 h-[1px] bg-border;
-  }
-
-  .chip {
-    @apply font-mono text-[11px] px-3 py-1 rounded-full bg-card border border-border text-muted;
-  }
-  .chip-hi {
-    @apply bg-accent-bg border-border text-accent;
-  }
-  .chip-teal {
-    @apply bg-accent2-bg border-border text-accent2;
-  }
-
-  .proj-card {
-    @apply bg-surface border border-border rounded-xl p-6 shadow-sm flex flex-col gap-3 transition-all duration-200 hover:shadow-md;
-  }
-  .proj-btn {
-    @apply font-mono text-[11px] px-3 py-1.5 rounded-md border border-border bg-transparent text-muted transition-all duration-200 flex items-center gap-1.5;
-  }
-  .proj-btn:hover {
-    @apply border-accent text-accent bg-accent-bg;
-  }
-  .proj-btn-primary {
-    @apply bg-accent text-white border-accent hover:opacity-90 hover:bg-accent hover:text-white;
-  }
-
-  .skill-tag {
-    @apply font-mono text-[12px] px-3.5 py-1.5 rounded-md bg-card border border-border text-muted;
-  }
-  .skill-tag.hi { @apply bg-accent-bg border-border text-accent; }
-  .skill-tag.teal { @apply bg-accent2-bg border-border text-accent2; }
-  .skill-tag.amber { @apply bg-[#f9f9f9] border-border text-[#333333]; }
+  .sec-head { @apply flex items-center gap-4 mb-10; }
+  .sec-label { @apply text-xs font-mono uppercase tracking-[.16em] text-accent; }
+  .sec-line { @apply flex-1 h-px bg-border; }
+  .chip, .skill-tag { @apply inline-flex items-center text-xs px-3 py-1.5 rounded-lg bg-surface border border-border text-muted; }
+  .chip-hi, .chip-teal, .skill-tag.hi, .skill-tag.teal, .skill-tag.amber { @apply bg-accent-bg text-accent; }
+  .proj-card { @apply bg-surface border border-border rounded-2xl p-6 flex flex-col gap-3 transition-shadow duration-200; overflow-wrap: anywhere; }
+  .proj-card:hover { box-shadow: 0 12px 32px -18px #153b4655; }
+  .btn, .proj-btn, .btn-ghost, .btn-ember { @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-border bg-surface text-text text-xs font-medium transition-colors; }
+  .btn:hover, .proj-btn:hover, .btn-ghost:hover { @apply bg-accent-bg border-accent text-accent; }
+  .proj-btn-primary, .btn-ember { @apply bg-accent border-accent; color: var(--surface); }
+  .proj-btn-primary:hover, .btn-ember:hover { @apply bg-accent opacity-90; color: var(--surface); }
+  .btn-sm { @apply px-3 py-2 text-xs; }
+  .input, .select, .textarea { @apply w-full bg-bg text-text border border-border rounded-lg px-3 py-2.5 text-sm; }
+  .label, .label-tag, .eyebrow { @apply block text-xs text-muted font-medium mb-2; }
+  .label-tag { @apply text-accent uppercase tracking-wider; }
+  .panel, .experience-card { @apply bg-surface border border-border rounded-xl; }
+  .image-holder { @apply grid place-items-center overflow-hidden rounded-xl border border-border bg-bg; aspect-ratio: 4 / 3; }
+  .image-holder img { width: 100%; height: 100%; object-fit: contain; }
+  .contact-item { @apply bg-surface border border-border rounded-xl p-4 flex items-center gap-3 text-sm; min-width: 0; overflow-wrap: anywhere; }
+  .contact-item:hover { border-color: var(--accent); }
+  .hero-actions { @apply flex flex-wrap gap-3 mt-7; }
+  .hero-portrait { border-radius: 28px; width: 240px; height: 280px; object-fit: cover; object-position: center 30%; border: 1px solid var(--border); }
+  .hero-note { @apply text-xs text-muted mt-3 flex items-center gap-2; }
+  .skip-link { @apply fixed z-50 top-3 left-3 bg-surface text-accent px-4 py-2 rounded-lg; transform: translateY(-160%); }
+  .skip-link:focus { transform: translateY(0); }
 }
-
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
-}
-.animate-blink {
-  animation: blink 2s infinite;
-}
-
-@keyframes pageIn {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.page-in {
-  animation: pageIn 320ms ease-out both;
-}
-
+.main { width: 100%; max-width: 1120px; margin-inline: auto; min-width: 0; }
+.font-mono { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+.page-in { animation: page-in .25s ease-out both; }
+@keyframes page-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.skeleton { background: var(--border); border-radius: 10px; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+@media (max-width: 767px) { .hero-portrait { width: 160px; height: 188px; border-radius: 20px; } }

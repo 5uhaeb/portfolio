@@ -32,7 +32,7 @@ export function useLocalImage(key) {
   return value;
 }
 
-export function imageFileToDataUrl(file, { maxWidth = 1000, maxHeight = 750, quality = .82 } = {}) {
+export function imageFileToDataUrl(file, { maxWidth = 1200, maxHeight = 900, quality = .8 } = {}) {
   return new Promise((resolve, reject) => {
     if (!file?.type?.startsWith('image/')) return reject(new Error('Choose an image file.'));
     const reader = new FileReader();
@@ -46,7 +46,7 @@ export function imageFileToDataUrl(file, { maxWidth = 1000, maxHeight = 750, qua
         canvas.width = Math.max(1, Math.round(image.width * scale));
         canvas.height = Math.max(1, Math.round(image.height * scale));
         canvas.getContext('2d').drawImage(image, 0, 0, canvas.width, canvas.height);
-        resolve(canvas.toDataURL('image/jpeg', quality));
+        resolve(canvas.toDataURL('image/webp', quality));
       };
       image.src = reader.result;
     };

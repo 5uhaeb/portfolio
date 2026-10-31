@@ -6,7 +6,7 @@ export default function ProjectCard({ item, indexLabel }) {
     <article className="proj-card p-6 flex flex-col gap-3 transition-all duration-200 h-full">
       <div className="flex items-start justify-between gap-2">
         <span className="font-mono text-[10px] text-muted">{indexLabel || '01'}</span>
-        <span className="font-mono text-[10px] px-2 py-0.5 rounded-full bg-accent2-bg text-accent2 border border-[#9fd8cc]">
+        <span className="font-mono text-[10px] px-2 py-0.5 rounded-full bg-accent2-bg text-accent2 border border-border">
           {item.year || "Project"}
         </span>
       </div>
@@ -22,7 +22,7 @@ export default function ProjectCard({ item, indexLabel }) {
       {!!(item.tech && item.tech.length) && (
         <div className="flex flex-wrap gap-1.5 mt-2">
           {item.tech.map((t) => (
-            <span key={t} className="font-mono text-[10px] px-2 py-0.5 rounded bg-accent-bg text-accent border border-[#c5bfef]">
+            <span key={t} className="font-mono text-[10px] px-2 py-0.5 rounded bg-accent-bg text-accent border border-border">
               {t}
             </span>
           ))}
