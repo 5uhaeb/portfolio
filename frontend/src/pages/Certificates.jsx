@@ -25,9 +25,9 @@ export default function Certificates() {
 
   return (
     <div className="page-in section-page">
-      <PageHeading number="04" eyebrow="CREDENTIALS & ACHIEVEMENTS" title="Learning with intention." description="Certifications, competitive milestones, and the work behind continuous learning."/>
+      <PageHeading number="04" eyebrow="CERTIFICATIONS & ACHIEVEMENTS" title="Learning with intention." description="Certifications, competitive milestones, and the work behind continuous learning."/>
       <div className="sec-head">
-        <span className="sec-label">Certificates</span>
+        <span className="sec-label">Certifications</span>
         <div className="sec-line"></div>
         {isAdmin && (
           <button className="proj-btn proj-btn-primary" onClick={openNew}>

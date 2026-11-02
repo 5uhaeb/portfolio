@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext.jsx';
 import { useEffect, useState, lazy, Suspense } from 'react';
 import Icon from './Icon.jsx';
 const LoginModal = lazy(() => import('./LoginModal.jsx'));
-const LINKS = [['/', 'Overview'], ['/projects', 'Projects'], ['/skills', 'Skills'], ['/education', 'Education'], ['/certificates', 'Credentials']];
+const LINKS = [['/', 'Overview'], ['/projects', 'Projects'], ['/skills', 'Skills'], ['/education', 'Education'], ['/certificates', 'Certifications']];
 export default function Sidebar() {
   const { isAdmin, logout } = useAuth();
   const [loginOpen, setLoginOpen] = useState(false);

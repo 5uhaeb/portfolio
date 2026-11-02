@@ -1,4 +1,4 @@
-import { webUrl } from '../lib/webUrl.js';
+import { webUrl, profileImageUrl } from '../lib/webUrl.js';
 import { Link } from 'react-router-dom';
 import { useState, lazy, Suspense } from 'react';
 import { useHomeData } from '../lib/useHomeData.js';
@@ -23,7 +23,7 @@ export default function Home() {
   const nameParts = name.trim().split(/\s+/);
   const surname = nameParts.length > 1 ? nameParts.pop() : '';
   const givenName = nameParts.join(' ');
-  const avatar = localAvatar || data.avatarUrl || photoUrl;
+  const avatar = profileImageUrl(data.avatarUrl) || localAvatar || photoUrl;
   const featured = projects.filter(p => p.description?.trim() || p.summary?.trim()).slice(0, 3);
   const university = education.find(e => e.kind === 'education' && /vit/i.test(e.company));
   const socials = [['GitHub', data.socials?.github], ['LinkedIn', data.socials?.linkedin], ['LeetCode', data.socials?.leetcode]].map(([label,url]) => [label,webUrl(url)]).filter(([,url]) => url);

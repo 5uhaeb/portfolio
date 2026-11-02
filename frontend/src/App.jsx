@@ -11,7 +11,7 @@ export default function App() {
   const { pathname } = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
-    const section = pathname === '/' ? 'Software Engineer' : pathname.slice(1).replace(/^./, c => c.toUpperCase());
+    const section = pathname === '/' ? 'Software Engineer' : pathname === '/certificates' ? 'Certifications' : pathname.slice(1).replace(/^./, c => c.toUpperCase());
     document.title = `Suhaeb Nawab Shaik | ${section}`;
   }, [pathname]);
   return <div className="layout">
