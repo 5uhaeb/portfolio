@@ -1,57 +1,15 @@
 import { webUrl } from '../../lib/webUrl.js';
-export default function ProjectCard({ item, indexLabel }) {
-  const repoUrl = webUrl(item.repoUrl);
-  const liveUrl = webUrl(item.liveUrl);
-  return (
-    <article className="proj-card p-6 flex flex-col gap-3 transition-all duration-200 h-full">
-      <div className="flex items-start justify-between gap-2">
-        <span className="font-mono text-[10px] text-muted">{indexLabel || '01'}</span>
-        <span className="font-mono text-[10px] px-2 py-0.5 rounded-full bg-accent2-bg text-accent2 border border-border">
-          {item.year || "Project"}
-        </span>
-      </div>
-
-      <h3 className="text-[17px] font-bold text-text mt-1">{item.title}</h3>
-
-      {item.description && (
-        <p className="text-[14px] text-muted leading-relaxed flex-1">
-          {item.description}
-        </p>
-      )}
-
-      {!!(item.tech && item.tech.length) && (
-        <div className="flex flex-wrap gap-1.5 mt-2">
-          {item.tech.map((t) => (
-            <span key={t} className="font-mono text-[10px] px-2 py-0.5 rounded bg-accent-bg text-accent border border-border">
-              {t}
-            </span>
-          ))}
-        </div>
-      )}
-
-      <div className="flex gap-2 mt-4">
-        {repoUrl && (
-          <a
-            href={repoUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="proj-btn proj-btn-primary flex-1 justify-center"
-          >
-            GitHub ↗
-          </a>
-        )}
-        {liveUrl && (
-          <a
-            href={liveUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="proj-btn flex-1 justify-center"
-          >
-            Live site ↗
-          </a>
-        )}
-      </div>
-    </article>
-  );
+import Icon from '../Icon.jsx';
+export default function ProjectCard({ item, indexLabel, compact = false }) {
+  const repoUrl = webUrl(item.repoUrl), liveUrl = webUrl(item.liveUrl), imageUrl = webUrl(item.imageUrl);
+  const type = /taskflow/i.test(item.title) ? 'FULL-STACK APPLICATION' : /scrapy/i.test(item.title) ? 'AUTOMATION & DATA' : /watchparty/i.test(item.title) ? 'REAL-TIME COLLABORATION' : 'SOFTWARE PROJECT';
+  return <article className={`proj-card project-card ${compact ? 'project-compact' : ''}`}>
+    <div className="project-top"><span className="project-index">{indexLabel || '01'} /</span><span>{type}</span><Icon name="code" size={20}/></div>
+    {imageUrl && <img className="project-image" src={imageUrl} alt={`${item.title} interface`} loading="lazy" decoding="async" onError={event => { event.currentTarget.style.display = 'none'; }}/ >}
+    <h3>{item.title}</h3>
+    {item.summary && <p className="project-summary">{item.summary}</p>}
+    {item.description && <div className="project-description">{(compact ? item.description.split('\n').slice(0,1) : item.description.split('\n')).filter(Boolean).map((line,index) => <p key={index}>{line}</p>)}</div>}
+    {!!item.tech?.length && <div className="project-stack">{(compact ? item.tech.slice(0,4) : item.tech).map(t => <span key={t}>{t}</span>)}</div>}
+    <div className="project-links">{liveUrl && <a href={liveUrl} target="_blank" rel="noreferrer">Live project <Icon name="external" size={17}/></a>}{repoUrl && <a href={repoUrl} target="_blank" rel="noreferrer">Source code <Icon name="code" size={17}/></a>}</div>
+  </article>;
 }
-

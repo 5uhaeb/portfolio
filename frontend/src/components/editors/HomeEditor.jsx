@@ -3,8 +3,8 @@ import Modal from '../Modal.jsx';
 import { getLocalImage, imageFileToDataUrl, setLocalImage } from '../../lib/localImages.js';
 
 const EMPTY = {
-  name: '', role: '', tagline: '', bio: '', location: '', email: '', phone: '', avatarUrl: '',
-  socials: { github: '', linkedin: '', twitter: '', website: '' },
+  name: '', role: '', tagline: '', bio: '', location: '', email: '', phone: '', avatarUrl: '', resumeUrl: '',
+  socials: { leetcode: '', github: '', linkedin: '', twitter: '', website: '' },
 };
 
 export default function HomeEditor({ open, onClose, initial, onSave }) {
@@ -103,9 +103,10 @@ export default function HomeEditor({ open, onClose, initial, onSave }) {
           </div>
         </div>
 
+        <div className="md:col-span-2"><label className="label" htmlFor="resume-url">Resume PDF URL (optional; bundled resume used by default)</label><input id="resume-url" type="url" className="input" value={form.resumeUrl || ''} onChange={e => set('resumeUrl', e.target.value)}/></div>
         <div className="md:col-span-2 rule pt-5" />
         <div className="md:col-span-2 eyebrow -mt-2">Socials</div>
-        {['github', 'linkedin', 'twitter', 'website'].map((k) => (
+        {['github', 'linkedin', 'leetcode', 'twitter', 'website'].map((k) => (
           <div key={k}>
             <label className="label">{k}</label>
             <input

@@ -9,7 +9,7 @@ import { CSS } from '@dnd-kit/utilities';
  *     <YourCard item={item} />
  *   </EditShell>
  */
-export default function EditShell({ id, isAdmin, onEdit, onDelete, children }) {
+export default function EditShell({ id, isAdmin, onEdit, onDelete, children, className = '' }) {
   const {
     attributes,
     listeners,
@@ -25,20 +25,20 @@ export default function EditShell({ id, isAdmin, onEdit, onDelete, children }) {
     zIndex: isDragging ? 10 : 'auto',
   };
 
-  if (!isAdmin) return <div>{children}</div>;
+  if (!isAdmin) return <div className={className}>{children}</div>;
 
   return (
     <div
       ref={setNodeRef}
       style={style}
-      className={`relative group ${isDragging ? 'opacity-80 dragging-shell' : ''}`}
+      className={`relative group ${className} ${isDragging ? 'opacity-80 dragging-shell' : ''}`}
     >
       {/* Admin control strip, hidden until hover */}
-      <div className="absolute -top-3 right-3 z-20 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+      <div className="absolute -top-3 right-3 z-20 flex items-center gap-1 opacity-100 md:opacity-0 md:group-hover:opacity-100 focus-within:opacity-100 transition-opacity">
         <button
           {...attributes}
           {...listeners}
-          className="px-2 py-1 bg-ink text-paper font-mono text-[10px] uppercase tracking-widest cursor-grab active:cursor-grabbing"
+          className="px-2 py-1 bg-ink text-paper font-mono text-[12px] uppercase tracking-widest cursor-grab active:cursor-grabbing"
           aria-label="Drag to reorder"
           type="button"
         >
@@ -46,14 +46,14 @@ export default function EditShell({ id, isAdmin, onEdit, onDelete, children }) {
         </button>
         <button
           onClick={onEdit}
-          className="px-2 py-1 bg-ink text-paper font-mono text-[10px] uppercase tracking-widest hover:bg-ember"
+          className="px-2 py-1 bg-ink text-paper font-mono text-[12px] uppercase tracking-widest hover:bg-ember"
           type="button"
         >
           Edit
         </button>
         <button
           onClick={onDelete}
-          className="px-2 py-1 bg-red-800 text-paper font-mono text-[10px] uppercase tracking-widest hover:bg-red-900"
+          className="px-2 py-1 bg-red-800 text-paper font-mono text-[12px] uppercase tracking-widest hover:bg-red-900"
           type="button"
         >
           Delete

@@ -1,0 +1,234 @@
+{
+  "home": {
+    "name": "Suhaeb Nawab Shaik",
+    "role": "Computer Science Engineering — Software Engineering",
+    "tagline": "Software engineering student. Building across the stack.",
+    "bio": "I am a final-year Computer Science Engineering student at VIT-AP University, with a focus on Software Engineering. My foundation is Java, data structures, and algorithms, sharpened through regular LeetCode practice. I build full-stack applications with authenticated APIs, real-time communication, and cloud deployments, and enjoy taking a project from the first design decision through to a working release.",
+    "location": "Chittoor, Andhra Pradesh, India",
+    "email": "suhaebn.shaik@gmail.com",
+    "phone": "+91 9059991989",
+    "resumeUrl": "",
+    "socials": {
+      "github": "https://github.com/5uhaeb",
+      "linkedin": "https://www.linkedin.com/in/suhaeb-shaik-89a16734a/",
+      "leetcode": "https://leetcode.com/u/5uhaeb/",
+      "website": "https://portfolio-chi-umber-63.vercel.app/",
+      "twitter": ""
+    }
+  },
+  "projects": [
+    {
+      "title": "Taskflow",
+      "summary": "Authenticated task management, from API to checkout.",
+      "description": "Built task-management APIs backed by Supabase PostgreSQL schemas, with authenticated per-user access to task data.\nImplemented Redis caching with time-to-live expiration and cache invalidation to support task retrieval.\nIntegrated Razorpay checkout with server-side HMAC-SHA256 signature verification to validate payment authenticity.",
+      "tech": [
+        "React",
+        "Express.js",
+        "Supabase",
+        "PostgreSQL",
+        "Redis",
+        "Razorpay"
+      ],
+      "liveUrl": "https://todo-app-ten-sigma-95.vercel.app/",
+      "repoUrl": "https://github.com/5uhaeb/todo",
+      "year": "2026"
+    },
+    {
+      "title": "ScrapyV1",
+      "summary": "Automated price tracking across e-commerce listings.",
+      "description": "Built a Dockerized price-tracking application with Playwright and BeautifulSoup scraping adapters for e-commerce product data.\nImplemented MongoDB price-history storage and fuzzy product comparisons to track pricing across collected listings.\nAdded API controls and scheduled scraping through GitHub Actions; validated functionality with 32 pytest tests and verified persistence of live scrape results.",
+      "tech": [
+        "Python",
+        "FastAPI",
+        "Playwright",
+        "BeautifulSoup",
+        "MongoDB",
+        "Docker",
+        "GitHub Actions"
+      ],
+      "liveUrl": "https://scrap-yv1.vercel.app/",
+      "repoUrl": "https://github.com/5uhaeb/SCRAPYv1",
+      "year": "2026"
+    },
+    {
+      "title": "WatchParty",
+      "summary": "Live rooms, shared experiences, and browser-based streaming.",
+      "description": "Developed Socket.IO rooms and real-time chat with signed guest access, room isolation, and reconnection handling.\nImplemented WebRTC streaming with STUN/TURN configuration and optional Janus AudioBridge integration.\nBuilt a Manifest V3 browser-extension overlay; added 12 unit/API tests and performed browser checks for camera access and fallback behavior.",
+      "tech": [
+        "Socket.IO",
+        "WebRTC",
+        "STUN/TURN",
+        "Janus AudioBridge",
+        "Manifest V3"
+      ],
+      "liveUrl": "https://watchparty-x5oi.vercel.app/",
+      "repoUrl": "https://github.com/5uhaeb/watchparty",
+      "year": "2026"
+    },
+    {
+      "title": "Dynamic Portfolio",
+      "summary": "An editable portfolio that updates in real time.",
+      "description": "Built React, Express, and MongoDB admin CRUD with bcrypt/JWT authentication, session revocation, drag ordering, and Socket.IO updates.\nVerified API behavior, real database operations, and updates across two browser sessions.",
+      "tech": [
+        "React",
+        "Express.js",
+        "MongoDB",
+        "JWT",
+        "Socket.IO"
+      ],
+      "liveUrl": "https://portfolio-chi-umber-63.vercel.app/",
+      "repoUrl": "https://github.com/5uhaeb/portfolio",
+      "year": "2026"
+    }
+  ],
+  "education": [
+    {
+      "company": "VIT-AP University",
+      "role": "B.Tech in Computer Science Engineering — Software Engineering",
+      "endDate": "Expected 2027",
+      "score": "8.09 / 10",
+      "scoreLabel": "CGPA",
+      "kind": "education"
+    },
+    {
+      "company": "GITAM Educational Institutions",
+      "role": "Intermediate — Mathematics, Physics and Chemistry",
+      "startDate": "2021",
+      "endDate": "2023",
+      "score": "928 / 1000",
+      "scoreLabel": "Score",
+      "kind": "education"
+    },
+    {
+      "company": "Narayana English Medium School",
+      "role": "Secondary School Certificate (SSC)",
+      "startDate": "2020",
+      "endDate": "2021",
+      "score": "10 / 10",
+      "scoreLabel": "GPA",
+      "kind": "education"
+    }
+  ],
+  "skillGroups": {
+    "Languages": [
+      "Java",
+      "C",
+      "Python",
+      "JavaScript",
+      "SQL"
+    ],
+    "Frontend": [
+      "React.js",
+      "Tailwind CSS",
+      "Vite",
+      "HTML",
+      "CSS"
+    ],
+    "Backend & APIs": [
+      "Node.js",
+      "Express.js",
+      "FastAPI",
+      "REST APIs",
+      "Socket.IO",
+      "JWT Authentication"
+    ],
+    "Databases & Caching": [
+      "PostgreSQL",
+      "Supabase",
+      "MongoDB",
+      "MySQL",
+      "Redis"
+    ],
+    "DevOps & Cloud": [
+      "Docker",
+      "Kubernetes",
+      "Git",
+      "GitHub Actions",
+      "CI/CD Pipelines",
+      "Vercel",
+      "Render",
+      "AWS"
+    ],
+    "Systems & Networking": [
+      "Linux OS",
+      "Windows",
+      "Shell scripting",
+      "Process management",
+      "File permissions",
+      "Computer Networking",
+      "TCP/IP fundamentals",
+      "LAN",
+      "Routing"
+    ],
+    "Software Engineering": [
+      "Software Development Lifecycle (SDLC)",
+      "Requirements Engineering & Management",
+      "Agile Development",
+      "Software Design and Architecture"
+    ],
+    "CS & Mathematics": [
+      "Data Structures & Algorithms",
+      "Operating Systems",
+      "Linear Algebra",
+      "Engineering Mathematics"
+    ]
+  },
+  "certificates": [
+    {
+      "title": "GATE 2026 — Qualified",
+      "issuer": "Graduate Aptitude Test in Engineering",
+      "issueDate": "2026",
+      "kind": "achievement",
+      "credentialUrl": "https://drive.google.com/file/d/1_uzhcjB2XLWQbYROQSgMG6T2eiDV4s5K/view?usp=sharing"
+    },
+    {
+      "title": "Cloud Architecting",
+      "issuer": "AWS Academy",
+      "credentialUrl": "https://drive.google.com/file/d/1pnOBW0almFDxPME5y4IwdKo87trw_GNq/view?usp=sharing"
+    },
+    {
+      "title": "Cloud Foundations",
+      "issuer": "AWS Academy",
+      "credentialUrl": "https://drive.google.com/file/d/1q5Uhf8K8RDZGQ3S60DMNYoryxwtaKfpR/view?usp=sharing"
+    },
+    {
+      "title": "Software Engineer Intern Certificate",
+      "issuer": "HackerRank",
+      "credentialUrl": "https://www.hackerrank.com/certificates/5edee5c58997"
+    },
+    {
+      "title": "User-Centric Computing for HCI",
+      "issuer": "NPTEL"
+    },
+    {
+      "title": "SQL (Intermediate)",
+      "issuer": "HackerRank",
+      "credentialUrl": "https://www.hackerrank.com/certificates/e4c0a623e10c"
+    },
+    {
+      "title": "Advanced GenAI",
+      "issuer": "IBM",
+      "credentialUrl": "https://drive.google.com/file/d/1JQ58RzdLrS07pNseIzdJgvgFrGa3Xl06/view?usp=sharing"
+    },
+    {
+      "title": "Linear Algebra for Machine Learning",
+      "issuer": "NPTEL"
+    },
+    {
+      "title": "Hackathon Finalist",
+      "issuer": "Hackathon",
+      "issueDate": "2025",
+      "kind": "achievement"
+    },
+    {
+      "title": "PW Battlegrounds — Top 30 teams in India",
+      "issuer": "PW Battlegrounds",
+      "issueDate": "2025",
+      "kind": "achievement"
+    },
+    {
+      "title": "Oracle Certified Associate Java Programmer",
+      "issuer": "Oracle"
+    }
+  ]
+}

@@ -1,33 +1,9 @@
-export default function ExperienceCard({ item }) {
-  return (
-    <article className="experience-card p-5 px-6 flex items-start justify-between gap-5 flex-wrap">
-      <div className="flex-1 min-w-0 w-full">
-        <div className="text-[15px] font-bold text-text mb-0.5">
-          {item.role || item.degree}
-        </div>
-        <div className="text-[13px] text-muted">
-          {item.company}{item.location ? ` · ${item.location}` : ''}
-        </div>
-        <div className="inline-block font-mono text-[10px] px-2 py-0.5 rounded-full bg-accent-bg text-accent border border-border mt-2">
-          {item.startDate} {item.endDate ? `– ${item.endDate}` : ''}
-        </div>
-        {item.description && <p className="text-[13px] text-muted leading-relaxed mt-3">{item.description}</p>}
-        {!!item.highlights?.length && (
-          <ul className="text-[13px] text-muted leading-relaxed mt-2 list-disc pl-5">
-            {item.highlights.map((highlight) => <li key={highlight}>{highlight}</li>)}
-          </ul>
-        )}
-      </div>
-
-      {item.score && <div className="text-right">
-        <div className="font-mono text-[15px] font-bold text-accent2">
-          {item.score}
-        </div>
-        <div className="text-[12px] text-muted mt-0.5">
-          {item.scoreLabel}
-        </div>
-      </div>}
-    </article>
-  );
+import Icon from '../Icon.jsx';
+export default function ExperienceCard({item}) {
+ const dates=[item.startDate,item.endDate].filter(Boolean).filter((v,i,a)=>a.indexOf(v)===i).join(' – ');
+ return <article className="education-card">
+   <div className="education-symbol"><Icon name="book" size={23}/></div>
+   <div className="education-body"><div className="education-dates">{dates}</div><h3>{item.company}</h3><p className="education-role">{item.role || item.degree}</p>{item.location && <p className="education-location">{item.location}</p>}{item.description && <p className="education-description">{item.description}</p>}{!!item.highlights?.length && <ul>{item.highlights.map(h=><li key={h}>{h}</li>)}</ul>}</div>
+   {item.score && <div className="education-score"><strong>{item.score}</strong><span>{item.scoreLabel}</span></div>}
+ </article>;
 }
-

@@ -99,3 +99,9 @@ Health is process liveness, not an end-to-end visitor/admin test. A frontend bui
 - Keep shared CRUD/list helpers where they remove real repetition.
 - Reconcile REST responses as well as public socket broadcasts.
 - Distinguish published content and shared media from browser-local previews.
+
+## Resume-aligned content and interface
+
+The current design keeps the slate-and-teal palette in light and dark themes, with responsive top navigation, a portrait-led introduction, featured projects, education, skills, and credentials. Admin editing and Socket.IO updates remain available. A PDF exported from the supplied resume is bundled under `frontend/public/resume/`; an optional public resume URL and LeetCode profile can be changed in Edit home.
+
+`content/resume.json` records the resume-derived content. The explicit `backend/scripts/sync-resume.cjs` utility synchronizes it through the authenticated admin API, preserves unrelated records and existing media, and does not run on server startup. Supply `PORTFOLIO_API_URL`, `PORTFOLIO_ADMIN_USERNAME`, and `PORTFOLIO_ADMIN_PASSWORD` only in the process environment. Run it intentionally when importing a new resume; ordinary content editing continues through the admin interface.

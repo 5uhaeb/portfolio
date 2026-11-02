@@ -1,36 +1,36 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 import { useEffect, useState, lazy, Suspense } from 'react';
+import Icon from './Icon.jsx';
 const LoginModal = lazy(() => import('./LoginModal.jsx'));
-
-const LINKS = [['/', 'Overview'], ['/projects', 'Projects'], ['/skills', 'Skills'], ['/education', 'Education'], ['/experience', 'Experience'], ['/certificates', 'Certificates']];
-
+const LINKS = [['/', 'Overview'], ['/projects', 'Projects'], ['/skills', 'Skills'], ['/education', 'Education'], ['/certificates', 'Credentials']];
 export default function Sidebar() {
   const { isAdmin, logout } = useAuth();
   const [loginOpen, setLoginOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [dark, setDark] = useState(() => document.documentElement.classList.contains('dark'));
+  const { pathname } = useLocation();
+  useEffect(() => { setMenuOpen(false); }, [pathname]);
   useEffect(() => {
     document.documentElement.classList.toggle('dark', dark);
-    try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch { /* Theme still works without storage. */ }
+    try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch {}
   }, [dark]);
-  const navigation = (mobile = false) => LINKS.map(([to, label], index) => (
-    <NavLink key={to} to={to} end={to === '/'} className={({ isActive }) =>
-      `flex items-center gap-4 rounded-lg px-3 py-2.5 text-sm whitespace-nowrap transition-colors ${isActive ? 'bg-accent-bg text-accent font-semibold' : 'text-muted hover:bg-accent-bg hover:text-accent'}`}>
-      {!mobile && <span className="font-mono text-[10px] opacity-60">0{index + 1}</span>}{label}
-    </NavLink>
-  ));
-  const themeButton = <button type="button" className="btn btn-sm" aria-label={`Switch to ${dark ? 'light' : 'dark'} theme`} aria-pressed={dark} onClick={() => setDark(v => !v)}>{dark ? 'Light mode' : 'Dark mode'}</button>;
-  const accountButton = <button type="button" onClick={isAdmin ? logout : () => setLoginOpen(true)} className="text-xs text-muted hover:text-accent">{isAdmin ? 'Sign out' : 'Admin login'}</button>;
   return <>
-    <header className="lg:hidden sticky top-0 z-40 bg-surface border-b border-border px-4 pt-4">
-      <div className="flex items-center justify-between gap-3"><NavLink to="/" className="font-semibold tracking-tight">Suhaeb Shaik<span className="text-accent">.</span></NavLink><div className="flex gap-3 items-center">{themeButton}{accountButton}</div></div>
-      <nav className="flex gap-1 overflow-x-auto py-3" aria-label="Primary navigation">{navigation(true)}</nav>
+    <header className="site-header">
+      <div className="header-inner">
+        <NavLink to="/" className="wordmark" aria-label="Suhaeb Shaik home"><span className="monogram">s<span>.</span></span><span>suhaeb shaik<span className="wordmark-role">SOFTWARE ENGINEERING</span></span></NavLink>
+        <nav id="primary-nav" className={`primary-nav ${menuOpen ? 'is-open' : ''}`} aria-label="Primary navigation">
+          {LINKS.map(([to,label]) => <NavLink key={to} to={to} end={to === '/'}>{label}</NavLink>)}
+          {isAdmin && <NavLink to="/experience">Activities</NavLink>}
+        </nav>
+        <div className="header-actions">
+          <button className="icon-button" type="button" aria-label={`Switch to ${dark ? 'light' : 'dark'} theme`} aria-pressed={dark} onClick={() => setDark(v => !v)}><Icon name={dark ? 'sun' : 'moon'} size={19}/></button>
+          <a className="header-contact" href="mailto:suhaebn.shaik@gmail.com">Let’s talk <Icon name="external" size={17}/></a>
+          <button className="icon-button mobile-menu" type="button" aria-label={menuOpen ? 'Close menu' : 'Open menu'} aria-expanded={menuOpen} aria-controls="primary-nav" onClick={() => setMenuOpen(v => !v)}><Icon name={menuOpen ? 'close' : 'menu'}/></button>
+        </div>
+      </div>
     </header>
-    <aside className="w-[256px] shrink-0 bg-surface border-r border-border px-7 py-10 sticky top-0 h-screen overflow-y-auto hidden lg:flex flex-col">
-      <NavLink to="/" className="mb-12"><span className="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-accent text-surface font-semibold mb-5">S.</span><span className="block text-xl font-semibold tracking-tight">Suhaeb Shaik<span className="text-accent">.</span></span><span className="text-xs text-muted">Personal portfolio</span></NavLink>
-      <nav className="flex flex-col gap-1" aria-label="Primary navigation">{navigation()}</nav>
-      <div className="mt-auto pt-10 space-y-5"><p className="flex gap-2 items-center text-xs text-muted"><span className="w-1.5 h-1.5 rounded-full bg-accent" />Open to opportunities</p><div className="flex items-center gap-4 border-t border-border pt-5">{themeButton}{accountButton}</div></div>
-    </aside>
-    {loginOpen && <Suspense fallback={null}><LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} /></Suspense>}
+    <div className="admin-access"><button type="button" onClick={isAdmin ? logout : () => setLoginOpen(true)}>{isAdmin ? 'Sign out of admin' : 'Admin login'}</button></div>
+    {loginOpen && <Suspense fallback={null}><LoginModal open={loginOpen} onClose={() => setLoginOpen(false)}/></Suspense>}
   </>;
 }

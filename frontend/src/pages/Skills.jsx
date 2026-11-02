@@ -1,3 +1,4 @@
+import PageHeading from '../components/PageHeading.jsx';
 import { useState } from 'react';
 import { useRealtimeList } from '../lib/useRealtimeList.js';
 import { useAuth } from '../context/AuthContext.jsx';
@@ -37,7 +38,8 @@ export default function Skills() {
   }, {});
 
   return (
-    <div className="page-in">
+    <div className="page-in section-page">
+      <PageHeading number="02" eyebrow="THE TOOLKIT" title="Fundamentals meet practice." description="The languages, tools, and engineering foundations I use to move from a problem to working software."/>
       <div className="sec-head">
         <span className="sec-label">Skills</span>
         <div className="sec-line"></div>
@@ -57,7 +59,7 @@ export default function Skills() {
         <div className="space-y-8">
           {Object.entries(groups).map(([cat, skills]) => (
             <div key={cat} className="skills-block">
-              <div className="text-[12px] font-bold text-muted uppercase tracking-[0.08em] mb-3">
+              <div className="text-[14px] font-bold text-muted uppercase tracking-[0.08em] mb-3">
                 {cat}
               </div>
               <div className="flex flex-wrap gap-2">

@@ -1,3 +1,4 @@
+import PageHeading from '../components/PageHeading.jsx';
 import { useState } from 'react';
 import { useRealtimeList } from '../lib/useRealtimeList.js';
 import { useAuth } from '../context/AuthContext.jsx';
@@ -12,6 +13,7 @@ export default function Projects() {
   const [editorOpen, setEditorOpen] = useState(false);
   const [editing, setEditing] = useState(null);
 
+  const visibleItems = isAdmin ? items : items.filter(item => item.description?.trim() || item.summary?.trim());
   const openNew = () => { setEditing(null); setEditorOpen(true); };
   const openEdit = (i) => { setEditing(i); setEditorOpen(true); };
 
@@ -24,7 +26,8 @@ export default function Projects() {
   }
 
   return (
-    <div className="page-in">
+    <div className="page-in section-page">
+      <PageHeading number="01" eyebrow="SELECTED WORK" title="Ideas, shipped." description="A closer look at the systems I have built, the decisions behind them, and the code that makes them work."/>
       <div className="sec-head">
         <span className="sec-label">Projects</span>
         <div className="sec-line"></div>
@@ -38,12 +41,12 @@ export default function Projects() {
       {error && <p role="alert" className="text-red-800 mb-4">{error}</p>}
       {loading ? (
         <div className="font-mono text-sm text-muted">Loading…</div>
-      ) : items.length === 0 ? (
+      ) : visibleItems.length === 0 ? (
         <Empty isAdmin={isAdmin} onAdd={openNew} />
       ) : (
-        <SortableList items={items} onReorder={reorder} disabled={!isAdmin}>
+        <SortableList items={visibleItems} onReorder={reorder} strategy="grid" disabled={!isAdmin}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {items.map((item, idx) => (
+            {visibleItems.map((item, idx) => (
               <EditShell
                 key={item._id}
                 id={item._id}

@@ -1,3 +1,4 @@
+import PageHeading from '../components/PageHeading.jsx';
 import { useState } from 'react';
 import { useRealtimeList } from '../lib/useRealtimeList.js';
 import { useAuth } from '../context/AuthContext.jsx';
@@ -23,7 +24,8 @@ export default function Certificates() {
   }
 
   return (
-    <div className="page-in">
+    <div className="page-in section-page">
+      <PageHeading number="04" eyebrow="CREDENTIALS & ACHIEVEMENTS" title="Learning with intention." description="Certifications, competitive milestones, and the work behind continuous learning."/>
       <div className="sec-head">
         <span className="sec-label">Certificates</span>
         <div className="sec-line"></div>
@@ -40,7 +42,7 @@ export default function Certificates() {
       ) : items.length === 0 ? (
         <Empty isAdmin={isAdmin} onAdd={openNew} />
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {items.map((item) => (
             <EditShell
               key={item._id}

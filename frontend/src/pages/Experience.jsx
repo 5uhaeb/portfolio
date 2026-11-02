@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+import PageHeading from '../components/PageHeading.jsx';
 import { useState } from 'react';
 import { useRealtimeList } from '../lib/useRealtimeList.js';
 import { useAuth } from '../context/AuthContext.jsx';
@@ -28,7 +30,9 @@ export default function Experience({ kind = 'experience' }) {
   }
 
   return (
-    <div className="page-in">
+    <div className="page-in section-page">
+      <PageHeading number="03" eyebrow={isEducation ? 'EDUCATION' : 'EXPERIENCE & ACTIVITIES'} title={isEducation ? 'A foundation to build on.' : 'Learning beyond the classroom.'} description={isEducation ? 'My academic journey in computer science, software engineering, and problem-solving.' : 'Collaborations, competitions, and hands-on work alongside my studies.'}/>
+
       <div className="sec-head">
         <span className="sec-label">{isEducation ? 'Education' : 'Experience & activities'}</span>
         <div className="sec-line"></div>
@@ -62,6 +66,7 @@ export default function Experience({ kind = 'experience' }) {
         </SortableList>
       )}
 
+      {isEducation && <Link to="/experience" className="text-link mt-8">View activities and collaborations →</Link>}
       <ExperienceEditor
         open={editorOpen}
         onClose={() => setEditorOpen(false)}
