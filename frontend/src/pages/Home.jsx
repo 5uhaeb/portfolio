@@ -40,7 +40,7 @@ export default function Home() {
       </div>
       <div className="portrait-composition">
         <div className="portrait-heading"><span>THE PERSON BEHIND THE CODE</span><Icon name="code" size={18}/></div>
-        <div className="portrait-frame"><img src={avatar} srcSet={avatar === photoUrl ? `${photoSmallUrl} 240w, ${photoUrl} 480w` : undefined} sizes="(max-width: 700px) 280px, 360px" width="360" height="420" fetchPriority="high" decoding="async" alt={name} className="hero-portrait" onError={event => { event.currentTarget.onerror = null; event.currentTarget.removeAttribute('srcset'); event.currentTarget.src = photoUrl; }}/><div className="portrait-caption"><span><span className="portrait-dot"/> Always learning. Always building.</span><Icon name="external" size={19}/></div></div>
+        <div className="portrait-frame"><img src={avatar} srcSet={avatar === photoUrl ? `${photoSmallUrl} 240w, ${photoUrl} 480w` : undefined} sizes="(max-width: 700px) 280px, 360px" width="360" height="420" fetchpriority="high" decoding="async" alt={name} className="hero-portrait" onError={event => { event.currentTarget.onerror = null; event.currentTarget.removeAttribute('srcset'); event.currentTarget.src = photoUrl; }}/><div className="portrait-caption"><span><span className="portrait-dot"/> Always learning. Always building.</span><Icon name="external" size={19}/></div></div>
         <div className="portrait-footnote"><Icon name="location" size={15}/><span>{data.location}</span></div>
       </div>
     </section>
