@@ -16,6 +16,6 @@ export default function CertificateCard({item}) {
    {image && <div className="image-holder credential-image"><CertificateImage key={image} src={image} title={item.title}/></div>}
    <h3>{item.title}</h3><p className="credential-issuer">{issuer}</p>
    {item.description && <p className="credential-description">{item.description}</p>}
-   <div className="credential-bottom"><span>{item.issueDate || 'Continuous learning'}</span>{credentialUrl ? <a href={credentialUrl} target="_blank" rel="noreferrer">View credential <Icon name="external" size={16}/></a> : <span className="credential-record">Resume record</span>}</div>
+   {(item.issueDate || credentialUrl) && <div className="credential-bottom"><span>{item.issueDate}</span>{credentialUrl ? <a href={credentialUrl} target="_blank" rel="noreferrer">View credential <Icon name="external" size={16}/></a> : null}</div>}
  </article>;
 }
