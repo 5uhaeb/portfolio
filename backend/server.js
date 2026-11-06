@@ -1,12 +1,12 @@
 require('dotenv').config({ path: require('node:path').join(__dirname, '.env') });
 const http = require('node:http');
-const mongoose = require('mongoose');
+const storage = require('./storage/drivebase');
 const bcrypt = require('bcryptjs');
 const { Server } = require('socket.io');
 const User = require('./models/User');
 const createApp = require('./app');
 const { isAllowedOrigin } = require('./middleware/origins');
-const { MONGODB_URI, JWT_SECRET, ADMIN_USERNAME, ADMIN_PASSWORD, PORT = 4000 } = process.env;
+const { JWT_SECRET, ADMIN_USERNAME, ADMIN_PASSWORD, PORT = 4000 } = process.env;
 
 const app = createApp();
 const server = http.createServer(app);
@@ -35,17 +35,16 @@ async function ensureAdminUser() {
 }
 
 async function main() {
-  if (!MONGODB_URI) throw new Error('MONGODB_URI is required');
   if (!JWT_SECRET || JWT_SECRET.length < 32) throw new Error('JWT_SECRET must contain at least 32 characters');
   if (process.env.NODE_ENV === 'production' && !process.env.CORS_ORIGINS?.trim()) {
     throw new Error('Set CORS_ORIGINS to the production frontend origin');
   }
-  await mongoose.connect(MONGODB_URI);
+  await storage.ready();
   await ensureAdminUser();
   server.listen(PORT, () => console.log(`[http] listening on :${PORT}`));
 }
 
 main().catch(() => {
-  console.error('Startup failed: check MongoDB access, JWT_SECRET, origins and bootstrap credentials.');
+  console.error('Startup failed: check Drivebase access, JWT_SECRET, origins and bootstrap credentials.');
   process.exit(1);
 });

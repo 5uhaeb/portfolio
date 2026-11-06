@@ -13,4 +13,4 @@ const SkillSchema = new mongoose.Schema(
 
 SkillSchema.index({ order: 1 });
 
-module.exports = mongoose.model('Skill', SkillSchema);
+module.exports = require('../storage/model')(mongoose.model('Skill', SkillSchema), 'skills');

@@ -10,4 +10,4 @@ const UserSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = require('../storage/model')(mongoose.model('User', UserSchema), 'users');

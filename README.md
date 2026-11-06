@@ -1,3 +1,5 @@
+> Drivebase migration branch: see [migration setup, authentication and rollout notes](DRIVEBASE_MIGRATION.md). The previous setup below describes the original deployment.
+
 # Portfolio
 
 An editable personal portfolio with React, Express and MongoDB. Visitors read published content; an admin manages it through the same interface. Socket.IO broadcasts content changes to connected browsers.

@@ -24,4 +24,4 @@ const HomeSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Home', HomeSchema);
+module.exports = require('../storage/model')(mongoose.model('Home', HomeSchema), 'homes');

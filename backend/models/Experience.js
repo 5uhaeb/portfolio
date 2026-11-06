@@ -19,4 +19,4 @@ const ExperienceSchema = new mongoose.Schema(
 
 ExperienceSchema.index({ order: 1 });
 
-module.exports = mongoose.model('Experience', ExperienceSchema);
+module.exports = require('../storage/model')(mongoose.model('Experience', ExperienceSchema), 'experiences');

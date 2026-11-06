@@ -17,4 +17,4 @@ const ProjectSchema = new mongoose.Schema(
 
 ProjectSchema.index({ order: 1 });
 
-module.exports = mongoose.model('Project', ProjectSchema);
+module.exports = require('../storage/model')(mongoose.model('Project', ProjectSchema), 'projects');

@@ -17,4 +17,4 @@ const CertificateSchema = new mongoose.Schema(
 
 CertificateSchema.index({ order: 1 });
 
-module.exports = mongoose.model('Certificate', CertificateSchema);
+module.exports = require('../storage/model')(mongoose.model('Certificate', CertificateSchema), 'certificates');
